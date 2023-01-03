@@ -1,8 +1,9 @@
 const lightGray = '#ebebeb';
 const deepGray = '#d4d4d4';
+const lightSkyBlue = '#cbc5f0';
+const deepSkyBlue = '#8d83d8';
 const blue = '#4130be';
-const skyBlue = '#cbc5f0';
 
 const mobile = 'screen and (max-width: 650px)';
 
-export { lightGray, deepGray, blue, skyBlue, mobile };
+export { lightGray, deepGray, lightSkyBlue, deepSkyBlue, blue, mobile };
