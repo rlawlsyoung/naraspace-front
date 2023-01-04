@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Logo from './Logo';
 import PageButton from './PageButton';
 
-import { deepSkyBlue } from '../styles/theme';
+import { deepSkyBlue, mobile } from '../styles/theme';
 
 const Header = () => {
   return (
@@ -30,6 +30,14 @@ const Container = styled.div`
 
 const ButtonWrapper = styled.div`
   margin: 0 40px;
+
+  @media ${mobile} {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    margin: 0;
+  }
 `;
 
 export default Header;

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, Location, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { blue } from '../styles/theme';
+import { blue, lightSkyBlue, mobile } from '../styles/theme';
 
 interface PageButtonType {
   text: string;
@@ -13,7 +13,7 @@ const PageButton: React.FC<PageButtonType> = ({ text, goal }) => {
   const location = useLocation();
 
   return (
-    <Container url={location.pathname} goal={goal}>
+    <Container className="flex-center" url={location.pathname} goal={goal}>
       <Link to={goal}>{text}</Link>
     </Container>
   );
@@ -29,10 +29,27 @@ const Container = styled.div<PropsType>`
   font-weight: ${(props) => props.url === props.goal && 700};
   a {
     color: ${(props) => (props.url === props.goal ? blue : 'white')};
-    &:hover {
-      color: ${blue};
-      font-weight: 700;
-      transition: 0.3s;
+  }
+
+  @media ${mobile} {
+    height: 47.5px;
+    width: 50%;
+    margin: 0;
+    background-color: ${(props) => (props.url === props.goal ? blue : lightSkyBlue)};
+    transition: background-color 0.3s;
+
+    a {
+      color: white;
+    }
+  }
+
+  @media (hover: hover) {
+    a {
+      &:hover {
+        color: ${blue};
+        font-weight: 700;
+        transition: 0.3s;
+      }
     }
   }
 `;
