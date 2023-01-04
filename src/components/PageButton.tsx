@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { blue, lightSkyBlue, mobile } from '../styles/theme';
+import { deepBlue, lightBlue, mobile } from '../styles/theme';
 
 interface PageButtonType {
   text: string;
@@ -36,14 +36,14 @@ const Container = styled.div<PropsType>`
   font-weight: ${(props) => props.url === props.goal && 700};
 
   a {
-    color: ${(props) => (props.url === props.goal ? blue : 'white')};
+    color: ${(props) => (props.url === props.goal ? deepBlue : 'white')};
   }
 
   @media ${mobile} {
     height: 50px;
     width: 50%;
     margin: 0;
-    background-color: ${(props) => (props.url === props.goal ? blue : lightSkyBlue)};
+    background-color: ${(props) => (props.url === props.goal ? deepBlue : lightBlue)};
     transition: background-color 0.3s;
 
     a {
@@ -56,7 +56,7 @@ const Container = styled.div<PropsType>`
   @media (hover: hover) {
     a {
       &:hover {
-        color: ${blue};
+        color: ${deepBlue};
         font-weight: 700;
         transition: 0.3s;
       }

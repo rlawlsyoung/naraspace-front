@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { blue, lightSkyBlue } from '../styles/theme';
+import { deepBlue, lightSkyBlue } from '../styles/theme';
 
 const NotFound = () => {
   return (
@@ -27,7 +27,7 @@ const Container = styled.div`
     font-weight: 400;
 
     &:hover {
-      background-color: ${blue};
+      background-color: ${deepBlue};
       font-weight: 700;
       transition: 0.3s;
     }
