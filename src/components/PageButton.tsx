@@ -12,8 +12,13 @@ interface PageButtonType {
 const PageButton: React.FC<PageButtonType> = ({ text, goal }) => {
   const location = useLocation();
 
+  const cutUrlLength = (url: string) => {
+    if (url.length > 5) return url.substr(0, 5);
+    else return url;
+  };
+
   return (
-    <Container className="flex-center" url={location.pathname} goal={goal}>
+    <Container className="flex-center" url={cutUrlLength(location.pathname)} goal={goal}>
       <Link to={goal} className="flex-center">
         {text}
       </Link>
