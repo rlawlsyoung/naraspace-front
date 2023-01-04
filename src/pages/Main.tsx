@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
-import UserBar from '../components/UserBar';
+import UserBarCheck from '../components/UserBarCheck';
 import { deepGray, deepBlue } from '../styles/theme';
 
 const Main = () => {
@@ -20,22 +20,22 @@ const Main = () => {
     <Container className="flex-center">
       <LeftContainer>
         <ContainerHeader />
-        <UserBarWrapper>
+        <UserBarCheckWrapper>
           {userData.map((data) => (
-            <UserBar name={data.name} date={data.date} />
+            <UserBarCheck name={data.name} date={data.date} checked={data.checked} />
           ))}
-        </UserBarWrapper>
+        </UserBarCheckWrapper>
       </LeftContainer>
 
       <FaArrowRight size={40} className="arrow" />
 
       <RightContainer>
         <ContainerHeader />
-        <UserBarWrapper>
+        <UserBarCheckWrapper>
           <ButtonContainer className="flex-center">
             <SaveButton>저장하기</SaveButton>
           </ButtonContainer>
-        </UserBarWrapper>
+        </UserBarCheckWrapper>
       </RightContainer>
     </Container>
   );
@@ -67,7 +67,7 @@ const RightContainer = styled.div`
   color: black;
 `;
 
-const UserBarWrapper = styled.div`
+const UserBarCheckWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 400px;

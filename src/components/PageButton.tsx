@@ -26,12 +26,12 @@ const PageButton: React.FC<PageButtonType> = ({ text, goal }) => {
   );
 };
 
-interface PropsType {
+interface StyledPropsType {
   url: string;
   goal: string;
 }
 
-const Container = styled.div<PropsType>`
+const Container = styled.div<StyledPropsType>`
   margin: 0 17.5px;
   font-weight: ${(props) => props.url === props.goal && 700};
 
