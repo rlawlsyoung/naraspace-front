@@ -28,6 +28,7 @@ const SelectBox = styled.select`
   width: 80px;
   height: 30px;
   margin-top: 10px;
+  font-family: 'SUIT-Variable', sans-serif;
 `;
 
 const Wrapper = styled.div`
@@ -36,7 +37,7 @@ const Wrapper = styled.div`
 
 const Box = styled.div`
   margin-top: 20px;
-  width: 100px;
+  width: 95px;
 `;
 
 export default ContainerHeader;

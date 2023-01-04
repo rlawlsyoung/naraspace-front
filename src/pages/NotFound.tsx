@@ -14,7 +14,8 @@ const NotFound = () => {
 
 const Container = styled.div`
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 70px);
+  margin-top: 70px;
   font-size: 24px;
   font-weight: 700;
 
