@@ -14,7 +14,9 @@ const PageButton: React.FC<PageButtonType> = ({ text, goal }) => {
 
   return (
     <Container className="flex-center" url={location.pathname} goal={goal}>
-      <Link to={goal}>{text}</Link>
+      <Link to={goal} className="flex-center">
+        {text}
+      </Link>
     </Container>
   );
 };
@@ -39,6 +41,8 @@ const Container = styled.div<PropsType>`
     transition: background-color 0.3s;
 
     a {
+      width: 100%;
+      height: 100%;
       color: white;
     }
   }
