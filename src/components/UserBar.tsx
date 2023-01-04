@@ -20,9 +20,7 @@ const UserBar: React.FC<UserBarType> = ({ name, date }) => {
 };
 
 const Container = styled.div`
-  min-height: 40px;
   cursor: pointer;
-
   &:last-of-type {
     border: none;
   }
@@ -31,6 +29,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  height: 40px;
   padding: 10px 0;
   margin: 0 20px;
   border-bottom: 1px solid ${deepGray};

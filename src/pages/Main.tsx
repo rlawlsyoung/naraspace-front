@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
@@ -23,10 +23,21 @@ const Main = () => {
 
   const checkedUserData = userData.filter((data) => data.checked);
 
+  const userDataSort = useCallback((data: userDataType[]) => {
+    const newData = [...data];
+    newData.sort(
+      (a, b) =>
+        new Date(a.date).getTime() - new Date(b.date).getTime() ||
+        a.name.charCodeAt(0) - b.name.charCodeAt(0),
+    );
+    return newData;
+  }, []);
+
+  console.log('하이'.charCodeAt(0));
+
   useEffect(() => {
     axios('/data/user-data.json').then((res) => {
-      setUserData(res.data);
-      console.log(res.data);
+      res.data && setUserData(userDataSort(res.data));
     });
   }, []);
 
@@ -35,23 +46,24 @@ const Main = () => {
       <LeftContainer>
         <ContainerHeader />
         <UserBarCheckWrapper height="400px">
-          {userData.map((data) => {
-            const handleChange = () => {
-              const clickedIdx = userData.indexOf(data);
-              const newUserData = [...userData];
-              [...userData][clickedIdx].checked = !userData[clickedIdx].checked;
-              setUserData(newUserData);
-            };
-            return (
-              <UserBarCheck
-                key={data.id}
-                handleChange={handleChange}
-                name={data.name}
-                date={data.date}
-                checked={data.checked}
-              />
-            );
-          })}
+          {userData[0].id !== 0 &&
+            userData.map((data) => {
+              const handleChange = () => {
+                const clickedIdx = userData.indexOf(data);
+                const newUserData = [...userData];
+                [...userData][clickedIdx].checked = !userData[clickedIdx].checked;
+                setUserData(newUserData);
+              };
+              return (
+                <UserBarCheck
+                  key={data.id}
+                  handleChange={handleChange}
+                  name={data.name}
+                  date={data.date}
+                  checked={data.checked}
+                />
+              );
+            })}
         </UserBarCheckWrapper>
       </LeftContainer>
 
@@ -59,7 +71,7 @@ const Main = () => {
 
       <RightContainer>
         <ContainerHeader />
-        <UserBarCheckWrapper height="315px">
+        <UserBarCheckWrapper height="320px">
           {checkedUserData.map((data) => (
             <UserBar key={data.id} name={data.name} date={data.date} />
           ))}
@@ -130,7 +142,7 @@ const ButtonContainer = styled.div`
 const SaveButton = styled.button`
   height: 35px;
   width: 210px;
-  margin: 25px 20px;
+  margin: 22.5px 20px;
   border: none;
   background-color: ${deepBlue};
   color: white;

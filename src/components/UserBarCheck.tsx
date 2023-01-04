@@ -18,7 +18,7 @@ const UserBarCheck: React.FC<UserBarCheckType> = ({ handleChange, name, date, ch
           <Name>{name}</Name>
           <p>{date}</p>
         </InfoWrapper>
-        <CheckBox type="checkbox" checked={checked} />
+        <CheckBox type="checkbox" checked={checked} readOnly />
       </Wrapper>
     </Container>
   );
@@ -29,7 +29,7 @@ interface StyledPropsType {
 }
 
 const Container = styled.div<StyledPropsType>`
-  min-height: 40px;
+  height: 40px;
   background-color: ${(props) => props.checked && middleBlue};
   color: ${(props) => props.checked && deepBlue};
   cursor: pointer;
