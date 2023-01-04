@@ -34,7 +34,7 @@ const Main = () => {
     <Container className="flex-center">
       <LeftContainer>
         <ContainerHeader />
-        <UserBarCheckWrapper>
+        <UserBarCheckWrapper height="400px">
           {userData.map((data) => {
             const handleChange = () => {
               const clickedIdx = userData.indexOf(data);
@@ -59,20 +59,14 @@ const Main = () => {
 
       <RightContainer>
         <ContainerHeader />
-        <UserBarCheckWrapper>
+        <UserBarCheckWrapper height="315px">
           {checkedUserData.map((data) => (
-            <UserBar
-              key={data.id}
-              // userData={userData}
-              name={data.name}
-              date={data.date}
-              checked={data.checked}
-            />
+            <UserBar key={data.id} name={data.name} date={data.date} />
           ))}
-          <ButtonContainer className="flex-center">
-            <SaveButton>저장하기</SaveButton>
-          </ButtonContainer>
         </UserBarCheckWrapper>
+        <ButtonContainer className="flex-center">
+          <SaveButton>저장하기</SaveButton>
+        </ButtonContainer>
       </RightContainer>
     </Container>
   );
@@ -104,10 +98,10 @@ const RightContainer = styled.div`
   color: black;
 `;
 
-const UserBarCheckWrapper = styled.div`
+const UserBarCheckWrapper = styled.div<{ height: string }>`
   display: flex;
   flex-direction: column;
-  height: 400px;
+  height: ${(props) => props.height};
   background-color: white;
   overflow-y: auto;
 
@@ -129,11 +123,11 @@ const UserBarCheckWrapper = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div``;
+const ButtonContainer = styled.div`
+  background-color: white;
+`;
 
 const SaveButton = styled.button`
-  position: absolute;
-  bottom: 0;
   height: 35px;
   width: 210px;
   margin: 25px 20px;

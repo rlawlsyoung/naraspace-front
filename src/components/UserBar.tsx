@@ -6,10 +6,9 @@ import { deepGray } from '../styles/theme';
 interface UserBarType {
   name: string;
   date: string;
-  checked: boolean;
 }
 
-const UserBar: React.FC<UserBarType> = ({ name, date, checked }) => {
+const UserBar: React.FC<UserBarType> = ({ name, date }) => {
   return (
     <Container>
       <Wrapper>
@@ -21,13 +20,8 @@ const UserBar: React.FC<UserBarType> = ({ name, date, checked }) => {
 };
 
 const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 40px;
-  padding: 10px 0;
-  margin: 0 20px;
-  border-bottom: 1px solid ${deepGray};
+  min-height: 40px;
+  cursor: pointer;
 
   &:last-of-type {
     border: none;
@@ -36,12 +30,14 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
+  align-items: center;
+  padding: 10px 0;
+  margin: 0 20px;
+  border-bottom: 1px solid ${deepGray};
 `;
 
 const Name = styled.p`
   width: 85px;
 `;
-
-const CheckBox = styled.input``;
 
 export default UserBar;

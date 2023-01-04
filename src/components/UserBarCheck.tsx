@@ -29,7 +29,7 @@ interface StyledPropsType {
 }
 
 const Container = styled.div<StyledPropsType>`
-  height: 40px;
+  min-height: 40px;
   background-color: ${(props) => props.checked && middleBlue};
   color: ${(props) => props.checked && deepBlue};
   cursor: pointer;

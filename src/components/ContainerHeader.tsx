@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled.div`
-  margin-top: 15px;
+  margin-top: 16px;
   width: 85px;
 `;
 
