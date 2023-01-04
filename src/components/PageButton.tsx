@@ -29,12 +29,13 @@ interface PropsType {
 const Container = styled.div<PropsType>`
   margin: 0 17.5px;
   font-weight: ${(props) => props.url === props.goal && 700};
+
   a {
     color: ${(props) => (props.url === props.goal ? blue : 'white')};
   }
 
   @media ${mobile} {
-    height: 47.5px;
+    height: 50px;
     width: 50%;
     margin: 0;
     background-color: ${(props) => (props.url === props.goal ? blue : lightSkyBlue)};
