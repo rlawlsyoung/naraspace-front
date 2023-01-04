@@ -1,13 +1,19 @@
+import React from 'react';
 import styled from 'styled-components';
 
 import { deepGray } from '../styles/theme';
 
-const UserBar = () => {
+interface UserBarType {
+  name: string;
+  date: string;
+}
+
+const UserBar: React.FC<UserBarType> = ({ name, date }) => {
   return (
     <Container>
       <Wrapper>
-        <Name>뽀로로</Name>
-        <p>1999.08.26</p>
+        <Name>{name}</Name>
+        <p>{date}</p>
       </Wrapper>
       <CheckBox type="checkbox" />
     </Container>
@@ -22,6 +28,10 @@ const Container = styled.div`
   padding: 10px 0;
   margin: 0 20px;
   border-bottom: 1px solid ${deepGray};
+
+  &:last-of-type {
+    border: none;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -29,7 +39,7 @@ const Wrapper = styled.div`
 `;
 
 const Name = styled.p`
-  width: 95px;
+  width: 85px;
 `;
 
 const CheckBox = styled.input``;

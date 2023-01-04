@@ -1,20 +1,29 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
 import UserBar from '../components/UserBar';
-
 import { deepGray, deepBlue } from '../styles/theme';
 
 const Main = () => {
+  const [userData, setUserData] = useState([{ name: '', date: '', checked: false }]);
+
+  useEffect(() => {
+    axios('/data/user-data.json').then((res) => {
+      setUserData(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
   return (
     <Container className="flex-center">
       <LeftContainer>
         <ContainerHeader />
         <UserBarWrapper>
-          <UserBar />
-          <UserBar />
-          <UserBar />
-          <UserBar />
+          {userData.map((data) => (
+            <UserBar name={data.name} date={data.date} />
+          ))}
         </UserBarWrapper>
       </LeftContainer>
 
@@ -36,7 +45,7 @@ const Container = styled.div`
   height: calc(100vh - 70px);
   margin-top: 70px;
   color: ${deepGray};
-  font-size: 15px;
+  font-size: 14px;
 
   .arrow {
     margin: 0 50px;
@@ -61,9 +70,19 @@ const RightContainer = styled.div`
 const UserBarWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 395px;
+  height: 400px;
   background-color: white;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 3px;
+    border-radius: 10px;
+    background: ${deepGray};
+  }
 `;
 
 const ButtonContainer = styled.div``;

@@ -22,6 +22,7 @@ const Container = styled.div`
   flex-direction: column;
   padding: 10px 20px;
   background-color: ${lightSkyBlue};
+  font-weight: 600;
 `;
 
 const SelectBox = styled.select`
@@ -36,8 +37,8 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled.div`
-  margin-top: 20px;
-  width: 95px;
+  margin-top: 15px;
+  width: 85px;
 `;
 
 export default ContainerHeader;
