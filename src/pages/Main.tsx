@@ -4,10 +4,24 @@ import { FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
 import UserBarCheck from '../components/UserBarCheck';
-import { deepGray, deepBlue } from '../styles/theme';
+import UserBar from '../components/UserBar';
+import { deepGray, deepBlue, lightGray } from '../styles/theme';
+
+export interface userDataType {
+  id: number;
+  image: string;
+  name: string;
+  date: string;
+  comment: string;
+  checked: boolean;
+}
 
 const Main = () => {
-  const [userData, setUserData] = useState([{ name: '', date: '', checked: false }]);
+  const [userData, setUserData] = useState([
+    { id: 0, name: '', date: '', checked: false, image: '', comment: '' },
+  ]);
+
+  const checkedUserData = userData.filter((data) => data.checked);
 
   useEffect(() => {
     axios('/data/user-data.json').then((res) => {
@@ -21,9 +35,23 @@ const Main = () => {
       <LeftContainer>
         <ContainerHeader />
         <UserBarCheckWrapper>
-          {userData.map((data) => (
-            <UserBarCheck name={data.name} date={data.date} checked={data.checked} />
-          ))}
+          {userData.map((data) => {
+            const handleChange = () => {
+              const clickedIdx = userData.indexOf(data);
+              const newUserData = [...userData];
+              [...userData][clickedIdx].checked = !userData[clickedIdx].checked;
+              setUserData(newUserData);
+            };
+            return (
+              <UserBarCheck
+                key={data.id}
+                handleChange={handleChange}
+                name={data.name}
+                date={data.date}
+                checked={data.checked}
+              />
+            );
+          })}
         </UserBarCheckWrapper>
       </LeftContainer>
 
@@ -32,6 +60,15 @@ const Main = () => {
       <RightContainer>
         <ContainerHeader />
         <UserBarCheckWrapper>
+          {checkedUserData.map((data) => (
+            <UserBar
+              key={data.id}
+              // userData={userData}
+              name={data.name}
+              date={data.date}
+              checked={data.checked}
+            />
+          ))}
           <ButtonContainer className="flex-center">
             <SaveButton>저장하기</SaveButton>
           </ButtonContainer>
@@ -75,13 +112,20 @@ const UserBarCheckWrapper = styled.div`
   overflow-y: auto;
 
   &::-webkit-scrollbar {
+    position: fixed;
+    left: 0;
     width: 5px;
+    padding-left: 100px;
   }
 
   &::-webkit-scrollbar-thumb {
-    height: 3px;
-    border-radius: 10px;
-    background: ${deepGray};
+    border-radius: 2.5px;
+    background-color: ${deepGray};
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 2.5px;
+    background-color: ${lightGray};
   }
 `;
 

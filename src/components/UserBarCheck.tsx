@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { userDataType } from '../pages/Main';
 import { deepGray, middleBlue, deepBlue } from '../styles/theme';
 
 interface UserBarCheckType {
+  handleChange: () => void;
   name: string;
   date: string;
   checked: boolean;
 }
 
-const UserBarCheck: React.FC<UserBarCheckType> = ({ name, date, checked }) => {
+const UserBarCheck: React.FC<UserBarCheckType> = ({ handleChange, name, date, checked }) => {
   return (
-    <Container checked={checked}>
+    <Container checked={checked} onClick={handleChange}>
       <Wrapper>
         <InfoWrapper>
           <Name>{name}</Name>
@@ -31,6 +32,7 @@ const Container = styled.div<StyledPropsType>`
   height: 40px;
   background-color: ${(props) => props.checked && middleBlue};
   color: ${(props) => props.checked && deepBlue};
+  cursor: pointer;
 
   &:last-of-type {
     border: none;
@@ -54,6 +56,8 @@ const Name = styled.p`
   width: 85px;
 `;
 
-const CheckBox = styled.input``;
+const CheckBox = styled.input`
+  cursor: pointer;
+`;
 
 export default UserBarCheck;
