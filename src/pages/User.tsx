@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { AiOutlineRight } from 'react-icons/ai';
+import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
 import UserBarWrapper from '../components/UserBarWrapper';
@@ -11,7 +11,6 @@ import { userDataType } from './Main';
 import { lightSkyBlue, lightGray, deepGray, deepBlue } from '../styles/theme';
 
 const User = () => {
-  const [userData, setUserData] = useState();
   const [checkedUserData, setCheckedUserData] = useState([
     { id: 0, name: '', date: '', checked: false, image: '', comment: '' },
   ]);
@@ -34,6 +33,13 @@ const User = () => {
             res.data.filter((data: userDataType) => data.checked),
             isAsc,
           ),
+        );
+      location.pathname !== '/user' &&
+        res.data &&
+        res.data[res.data.length - 1].id >= Number(location.pathname.substr(6)) &&
+        0 < Number(location.pathname.substr(6)) &&
+        setSelectedUser(
+          res.data.find((data: userDataType) => data.id === Number(location.pathname.substr(6))),
         );
     });
   }, []);
@@ -79,66 +85,72 @@ const User = () => {
     }
   }, []);
 
-  if (location.pathname === '/user')
-    return (
-      <Container className="flex-center">
-        <LeftContainer>
-          <ContainerHeader handleChange={handleChange} />
-          <UserBarWrapper height="320px">
-            {checkedUserData[0].id !== 0 &&
-              checkedUserData.map((data) => {
-                const handleClick = () => {
-                  setSelectedUser(data);
-                };
-                return (
-                  <UserBarSelect
-                    key={data.id}
-                    id={data.id}
-                    selectedId={selectedUser.id}
-                    name={data.name}
-                    date={data.date}
-                    handleClick={handleClick}
-                  />
-                );
-              })}
-          </UserBarWrapper>
-        </LeftContainer>
-        {selectedUser.id !== 0 && (
-          <RightContainer url={location.pathname}>
-            <DetailLink to={'/user/' + selectedUser.id} className="flex-center">
-              자세히 보기
-              <AiOutlineRight />
-            </DetailLink>
-            <ContainerTop />
-            <ProfileImage src={'/images/' + suitableImg(selectedUser.image)} alt="프로필 이미지" />
-            <ContainerBottom className="flex-center">
-              <InfoBar>
-                <Name>이름</Name>
-                <p>{selectedUser.name}</p>
-              </InfoBar>
-              <InfoBar>
-                <Name>생년월일</Name>
-                <p>{selectedUser.date}</p>
-              </InfoBar>
-              <InfoBar>
-                <Name>한마디</Name>
-                <p>{selectedUser.comment}</p>
-              </InfoBar>
-            </ContainerBottom>
-          </RightContainer>
-        )}
-      </Container>
-    );
-  else
-    return (
-      <Container className="flex-center">
-        <RightContainer url={location.pathname}>
+  return location.pathname === '/user' ? (
+    <Container className="flex-center">
+      <LeftContainer>
+        <ContainerHeader handleChange={handleChange} />
+        <UserBarWrapper height="320px">
+          {checkedUserData[0].id !== 0 &&
+            checkedUserData.map((data) => {
+              const handleClick = () => {
+                setSelectedUser(data);
+              };
+              return (
+                <UserBarSelect
+                  key={data.id}
+                  id={data.id}
+                  selectedId={selectedUser.id}
+                  name={data.name}
+                  date={data.date}
+                  handleClick={handleClick}
+                />
+              );
+            })}
+        </UserBarWrapper>
+      </LeftContainer>
+      {selectedUser.id !== 0 && (
+        <RightContainer url={location.pathname} width="350px">
           <DetailLink to={'/user/' + selectedUser.id} className="flex-center">
             자세히 보기
             <AiOutlineRight />
           </DetailLink>
           <ContainerTop />
-          <ProfileImage src={'/images/' + suitableImg(selectedUser.image)} alt="프로필 이미지" />
+          <ProfileImage
+            isDetail={false}
+            src={'/images/' + suitableImg(selectedUser.image)}
+            alt="프로필 이미지"
+          />
+          <ContainerBottom className="flex-center">
+            <InfoBar>
+              <Name>이름</Name>
+              <p>{selectedUser.name}</p>
+            </InfoBar>
+            <InfoBar>
+              <Name>생년월일</Name>
+              <p>{selectedUser.date}</p>
+            </InfoBar>
+            <InfoBar>
+              <Name>한마디</Name>
+              <p>{selectedUser.comment}</p>
+            </InfoBar>
+          </ContainerBottom>
+        </RightContainer>
+      )}
+    </Container>
+  ) : (
+    selectedUser.id !== 0 && (
+      <Container className="flex-center">
+        <RightContainer url={location.pathname} width="620px">
+          <PreviousLink to="/user" className="flex-center">
+            <AiOutlineLeft />
+            뒤로 가기
+          </PreviousLink>
+          <ContainerTop />
+          <ProfileImage
+            isDetail={true}
+            src={'/images/' + suitableImg(selectedUser.image)}
+            alt="프로필 이미지"
+          />
           <ContainerBottom className="flex-center">
             <InfoBar>
               <Name>이름</Name>
@@ -155,8 +167,14 @@ const User = () => {
           </ContainerBottom>
         </RightContainer>
       </Container>
-    );
+    )
+  );
 };
+
+interface RightContainerStyleProps {
+  url: string;
+  width: string;
+}
 
 const Container = styled.div`
   height: calc(100vh - 70px);
@@ -171,9 +189,9 @@ const LeftContainer = styled.div`
   color: black;
 `;
 
-const RightContainer = styled.div<{ url: string }>`
+const RightContainer = styled.div<RightContainerStyleProps>`
   position: relative;
-  width: 350px;
+  width: ${(props) => props.width};
   margin-left: ${(props) => props.url === '/user' && '20px'};
 `;
 
@@ -185,15 +203,24 @@ const DetailLink = styled(Link)`
   color: ${deepBlue};
 `;
 
+const PreviousLink = styled(Link)`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 16px;
+  color: ${deepBlue};
+  cursor: pointer;
+`;
+
 const ContainerTop = styled.div`
   height: 160px;
   background-color: ${lightSkyBlue};
 `;
 
-const ProfileImage = styled.img`
+const ProfileImage = styled.img<{ isDetail: boolean }>`
   position: absolute;
   top: 40px;
-  left: 85px;
+  left: ${(props) => (props.isDetail ? '220px' : '85px')};
   width: 180px;
   height: 180px;
   border-radius: 90px;
