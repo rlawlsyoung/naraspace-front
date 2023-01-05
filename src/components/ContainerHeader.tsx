@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { lightSkyBlue } from '../styles/theme';
+import { lightSkyBlue, mobile } from '../styles/theme';
 
 interface ContainerHeaderType {
   handleChange: () => void;
@@ -21,19 +21,34 @@ const ContainerHeader: React.FC<ContainerHeaderType> = ({ handleChange }) => {
     </Container>
   );
 };
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
   background-color: ${lightSkyBlue};
   font-weight: 600;
+
+  @media ${mobile} {
+    position: relative;
+    padding: 18px 20px;
+  }
 `;
+
 const SelectBox = styled.select`
   width: 80px;
   height: 30px;
   margin-top: 10px;
   font-family: 'SUIT-Variable', sans-serif;
+
+  @media ${mobile} {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    margin: 0;
+  }
 `;
+
 const Wrapper = styled.div`
   display: flex;
 `;
@@ -41,6 +56,10 @@ const Wrapper = styled.div`
 const Box = styled.div`
   margin-top: 16px;
   width: 85px;
+
+  @media ${mobile} {
+    margin: 0;
+  }
 `;
 
 export default ContainerHeader;

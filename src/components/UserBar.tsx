@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { deepGray } from '../styles/theme';
+import { lightGray } from '../styles/theme';
 
 interface UserBarType {
   name: string;
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   height: 40px;
   padding: 10px 0;
   margin: 0 20px;
-  border-bottom: 1px solid ${deepGray};
+  border-bottom: 1px solid ${lightGray};
 `;
 
 const Name = styled.p`
