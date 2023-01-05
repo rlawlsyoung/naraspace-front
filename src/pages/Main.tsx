@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
+import ContainerHeader from '../components/ContainerHeader';
 import UserBarCheck from '../components/UserBarCheck';
 import UserBar from '../components/UserBar';
-import { deepGray, deepBlue, lightGray, lightSkyBlue } from '../styles/theme';
+import { deepGray, deepBlue, lightGray } from '../styles/theme';
 
 export interface userDataType {
   id: number;
@@ -33,17 +34,36 @@ const Main = () => {
   const [isRightAsc, setIsLRightAsc] = useState(true);
   const [toggle, setToggle] = useState(false);
 
-  const handleLeftChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  useEffect(() => {
+    axios('/data/user-data.json').then((res) => {
+      res.data && setUserData(userDataSort(res.data, isLeftAsc));
+      setToggle(!toggle);
+    });
+  }, []);
+
+  useEffect(() => {
+    userData[0].id !== 0 &&
+      setCheckedUserData(
+        userDataSort(
+          userData.filter((data: userDataType) => data.checked),
+          isRightAsc,
+        ),
+      );
+  }, [userData && toggle]);
+
+  const handleLeftChange = () => {
     const reversedUserData = [...userData].reverse();
     setUserData(reversedUserData);
+    setIsLeftAsc(!isLeftAsc);
   };
 
-  const handleRightChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleRightChange = () => {
     const reversedUserData = [...checkedUserData].reverse();
     setCheckedUserData(reversedUserData);
+    setIsLRightAsc(!isRightAsc);
   };
 
-  const userDataSort = useCallback((data: userDataType[]) => {
+  const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
     const newData = [...data];
     newData.sort((a, b) => {
       let x = a.name.toLowerCase();
@@ -56,34 +76,14 @@ const Main = () => {
       }
       return 0;
     });
-    return newData;
+    if (isAsc) return newData;
+    else return newData.reverse();
   }, []);
-
-  useEffect(() => {
-    axios('/data/user-data.json').then((res) => {
-      res.data && setUserData(userDataSort(res.data));
-      setToggle(!toggle);
-    });
-  }, []);
-
-  useEffect(() => {
-    userData[0].id !== 0 &&
-      setCheckedUserData(userData.filter((data: userDataType) => data.checked));
-  }, [userData && toggle]);
 
   return (
     <Container className="flex-center">
       <LeftContainer>
-        <ContainerHeader>
-          <SelectBox name="정렬" onChange={handleLeftChange}>
-            <option value="오름차 순">오름차 순</option>
-            <option value="내림차 순">내림차 순</option>
-          </SelectBox>
-          <InfoWrapper>
-            <Info>이름</Info>
-            <Info>생년월일</Info>
-          </InfoWrapper>
-        </ContainerHeader>
+        <ContainerHeader handleChange={handleLeftChange} />
         <UserBarCheckWrapper height="400px">
           {userData[0].id !== 0 &&
             userData.map((data) => {
@@ -108,16 +108,7 @@ const Main = () => {
       </LeftContainer>
       <FaArrowRight size={40} className="arrow" />
       <RightContainer>
-        <ContainerHeader>
-          <SelectBox name="정렬" onChange={handleRightChange}>
-            <option value="오름차 순">오름차 순</option>
-            <option value="내림차 순">내림차 순</option>
-          </SelectBox>
-          <InfoWrapper>
-            <Info>이름</Info>
-            <Info>생년월일</Info>
-          </InfoWrapper>
-        </ContainerHeader>
+        <ContainerHeader handleChange={handleRightChange} />
         <UserBarCheckWrapper height="320px">
           {checkedUserData.map((data) => (
             <UserBar key={data.id} name={data.name} date={data.date} />
@@ -155,30 +146,6 @@ const RightContainer = styled.div`
   position: relative;
   width: 250px;
   color: black;
-`;
-
-const ContainerHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px;
-  background-color: ${lightSkyBlue};
-  font-weight: 600;
-`;
-
-const SelectBox = styled.select`
-  width: 80px;
-  height: 30px;
-  margin-top: 10px;
-  font-family: 'SUIT-Variable', sans-serif;
-`;
-
-const InfoWrapper = styled.div`
-  display: flex;
-`;
-
-const Info = styled.div`
-  margin-top: 16px;
-  width: 85px;
 `;
 
 const UserBarCheckWrapper = styled.div<{ height: string }>`
