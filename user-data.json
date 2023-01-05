@@ -30,7 +30,7 @@
       "date": "2002-06-07",
       "comment": "Cheers!",
       "image": "",
-      "checked": false
+      "checked": true
     },
     {
       "id": 5,
@@ -62,7 +62,7 @@
       "date": "1999-09-09",
       "comment": "오늘 하루는 어땠어?",
       "image": "7.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 9,

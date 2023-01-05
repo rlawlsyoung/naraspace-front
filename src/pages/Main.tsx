@@ -263,6 +263,7 @@ const SaveButton = styled.button`
 
 const SaveDialog = styled(Dialog)`
   overflow: hidden;
+  font-family: 'SUIT-Variable', sans-serif;
 `;
 
 export default Main;
