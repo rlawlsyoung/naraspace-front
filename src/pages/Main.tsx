@@ -25,15 +25,19 @@ const Main = () => {
 
   const userDataSort = useCallback((data: userDataType[]) => {
     const newData = [...data];
-    newData.sort(
-      (a, b) =>
-        new Date(a.date).getTime() - new Date(b.date).getTime() ||
-        a.name.charCodeAt(0) - b.name.charCodeAt(0),
-    );
+    newData.sort((a, b) => {
+      let x = a.name.toLowerCase();
+      let y = b.name.toLowerCase();
+      if (a.date !== b.date) return new Date(a.date).getTime() - new Date(b.date).getTime();
+      else if (x < y) {
+        return -1;
+      } else if (x > y) {
+        return 1;
+      }
+      return 0;
+    });
     return newData;
   }, []);
-
-  console.log('하이'.charCodeAt(0));
 
   useEffect(() => {
     axios('/data/user-data.json').then((res) => {
