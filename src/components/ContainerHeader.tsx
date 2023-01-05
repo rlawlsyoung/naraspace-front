@@ -18,7 +18,8 @@ const ContainerHeader: React.FC<ContainerHeaderType> = ({
 
   const handleOnChangeSelectValue = (str: string) => {
     setCurrentValue(str);
-    setIsAsc((asc) => !asc);
+    str === '오름차 순' && setIsAsc(true);
+    str === '내림차 순' && setIsAsc(false);
   };
 
   return (
