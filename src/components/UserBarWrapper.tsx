@@ -37,7 +37,7 @@ const Container = styled.div<{ height: string }>`
   }
 
   @media ${mobile} {
-    height: 200px;
+    height: 25vh;
   }
 `;
 

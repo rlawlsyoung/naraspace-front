@@ -31,7 +31,7 @@ const Container = styled.div`
 
   @media ${mobile} {
     position: relative;
-    padding: 18px 20px;
+    padding: 16px 20px;
   }
 `;
 
@@ -44,7 +44,7 @@ const SelectBox = styled.select`
   @media ${mobile} {
     position: absolute;
     right: 20px;
-    bottom: 10px;
+    bottom: 8px;
     margin: 0;
   }
 `;

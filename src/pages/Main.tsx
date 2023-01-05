@@ -6,7 +6,7 @@ import ContainerHeader from '../components/ContainerHeader';
 import UserBarWrapper from '../components/UserBarWrapper';
 import UserBarCheck from '../components/UserBarCheck';
 import UserBar from '../components/UserBar';
-import { deepGray, deepBlue } from '../styles/theme';
+import { deepGray, deepBlue, mobile } from '../styles/theme';
 
 export interface userDataType {
   id: number;
@@ -70,6 +70,8 @@ const Main = () => {
     setIsLRightAsc(!isRightAsc);
   };
 
+  console.log(screen.width);
+
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
     const newData = [...data];
     if (isAsc) {
@@ -123,7 +125,7 @@ const Main = () => {
             })}
         </UserBarWrapper>
       </LeftContainer>
-      <FaArrowRight size={40} className="arrow" />
+      <FaArrowRight className="arrow" />
       <RightContainer>
         <ContainerHeader handleChange={handleRightChange} />
         <UserBarWrapper height="320px">
@@ -148,6 +150,19 @@ const Container = styled.div`
 
   .arrow {
     margin: 0 50px;
+    font-size: 40px;
+  }
+
+  @media ${mobile} {
+    flex-direction: column;
+    height: calc(100vh - 120px);
+    margin-top: 120px;
+
+    .arrow {
+      font-size: 20px;
+      transform: rotate(90deg);
+      margin: 5px 0;
+    }
   }
 `;
 
@@ -156,6 +171,10 @@ const LeftContainer = styled.div`
   flex-direction: column;
   width: 250px;
   color: black;
+
+  @media ${mobile} {
+    width: 90vw;
+  }
 `;
 
 const RightContainer = styled.div`
@@ -164,6 +183,10 @@ const RightContainer = styled.div`
   position: relative;
   width: 250px;
   color: black;
+
+  @media ${mobile} {
+    width: 90vw;
+  }
 `;
 
 const ButtonContainer = styled.div`
