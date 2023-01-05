@@ -4,12 +4,17 @@ import styled from 'styled-components';
 import { deepBlue, deepGray, lightSkyBlue, middleBlue, mobile } from '../styles/theme';
 
 interface ContainerHeaderType {
+  isShowOptions: boolean;
+  setIsShowOptions: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAsc: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ContainerHeader: React.FC<ContainerHeaderType> = ({ setIsAsc }) => {
+const ContainerHeader: React.FC<ContainerHeaderType> = ({
+  isShowOptions,
+  setIsShowOptions,
+  setIsAsc,
+}) => {
   const [currentValue, setCurrentValue] = useState('오름차 순');
-  const [isShowOptions, setIsShowOptions] = useState(false);
 
   const handleOnChangeSelectValue = (str: string) => {
     setCurrentValue(str);

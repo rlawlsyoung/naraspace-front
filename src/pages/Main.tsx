@@ -43,6 +43,9 @@ const Main = () => {
   const [isLeftAsc, setIsLeftAsc] = useState(true);
   const [isRightAsc, setIsRightAsc] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isShowOptionsLeft, setIsShowOptionsLeft] = useState(false);
+  const [isShowOptionsRight, setIsShowOptionsRight] = useState(false);
+
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
@@ -77,6 +80,11 @@ const Main = () => {
   }, [isRightAsc]);
 
   const handleDialogClose = () => setIsDialogOpen(false);
+
+  const handleClickOutside = () => {
+    isShowOptionsLeft && setIsShowOptionsLeft(!isShowOptionsLeft);
+    isShowOptionsRight && setIsShowOptionsRight(!isShowOptionsRight);
+  };
 
   const handleSave = () => {
     try {
@@ -129,9 +137,13 @@ const Main = () => {
   }, []);
 
   return (
-    <Container className="flex-center">
+    <Container className="flex-center" onClick={handleClickOutside}>
       <LeftContainer>
-        <ContainerHeader setIsAsc={setIsLeftAsc} />
+        <ContainerHeader
+          isShowOptions={isShowOptionsLeft}
+          setIsShowOptions={setIsShowOptionsLeft}
+          setIsAsc={setIsLeftAsc}
+        />
         <UserBarWrapper height="400px">
           {userData[0].id !== 0 &&
             userData.map((data) => {
@@ -156,7 +168,11 @@ const Main = () => {
       </LeftContainer>
       <FaArrowRight className="arrow" />
       <RightContainer>
-        <ContainerHeader setIsAsc={setIsRightAsc} />
+        <ContainerHeader
+          isShowOptions={isShowOptionsRight}
+          setIsShowOptions={setIsShowOptionsRight}
+          setIsAsc={setIsRightAsc}
+        />
         <UserBarWrapper height="320px">
           {checkedUserData[0].id !== 0 &&
             checkedUserData.map((data) => (

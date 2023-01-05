@@ -11,6 +11,7 @@ import { userDataType } from './Main';
 import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
 
 const User = () => {
+  const [isShowOptions, setIsShowOptions] = useState(false);
   const [checkedUserData, setCheckedUserData] = useState([
     { id: 0, name: '', date: '', checked: false, image: '', comment: '' },
   ]);
@@ -70,8 +71,8 @@ const User = () => {
     else return '0.png';
   };
 
-  const handleChange = () => {
-    setIsAsc(!isAsc);
+  const handleClickOutside = () => {
+    isShowOptions && setIsShowOptions(!isShowOptions);
   };
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
@@ -102,9 +103,13 @@ const User = () => {
   }, []);
 
   return location.pathname === '/user' ? (
-    <Container className="flex-center">
+    <Container className="flex-center" onClick={handleClickOutside}>
       <LeftContainer>
-        <ContainerHeader setIsAsc={setIsAsc} />
+        <ContainerHeader
+          isShowOptions={isShowOptions}
+          setIsShowOptions={setIsShowOptions}
+          setIsAsc={setIsAsc}
+        />
         <UserBarWrapper height="320px">
           {checkedUserData[0].id !== 0 &&
             checkedUserData.map((data) => {
