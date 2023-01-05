@@ -1,6 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { FaArrowRight } from 'react-icons/fa';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from '@mui/material';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
 import UserBarWrapper from '../components/UserBarWrapper';
@@ -34,6 +42,7 @@ const Main = () => {
 
   const [isLeftAsc, setIsLeftAsc] = useState(true);
   const [isRightAsc, setIsLRightAsc] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
@@ -75,6 +84,9 @@ const Main = () => {
     setIsLRightAsc(!isRightAsc);
   };
 
+  const handleDialogOpen = () => setIsDialogOpen(true);
+  const handleDialogClose = () => setIsDialogOpen(false);
+
   const handleSave = () => {
     try {
       axios('../user-data.json').then((res) => {
@@ -85,7 +97,9 @@ const Main = () => {
         });
         result.forEach((data) => {
           try {
-            axios.put(`http://localhost:9000/user/${data.id}`, data).then(() => {});
+            axios.put(`http://localhost:9000/user/${data.id}`, data).then(() => {
+              setIsDialogOpen(true);
+            });
           } catch (err) {
             console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
           }
@@ -162,6 +176,25 @@ const Main = () => {
           <SaveButton onClick={handleSave}>저장하기</SaveButton>
         </ButtonContainer>
       </RightContainer>
+      <SaveDialog
+        open={isDialogOpen}
+        onClose={handleDialogClose}
+        PaperProps={{
+          style: { borderRadius: 0 },
+        }}
+      >
+        <DialogTitle>저장 완료</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            user-data.json 파일에 저장되었습니다.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary" autoFocus>
+            닫기
+          </Button>
+        </DialogActions>
+      </SaveDialog>
     </Container>
   );
 };
@@ -226,6 +259,10 @@ const SaveButton = styled.button`
   color: white;
   font-family: 'SUIT-Variable', sans-serif;
   cursor: pointer;
+`;
+
+const SaveDialog = styled(Dialog)`
+  overflow: hidden;
 `;
 
 export default Main;

@@ -30,7 +30,7 @@
       "date": "2002-06-07",
       "comment": "Cheers!",
       "image": "",
-      "checked": true
+      "checked": false
     },
     {
       "id": 5,
@@ -86,7 +86,7 @@
       "date": "1999-09-09",
       "comment": "해보는 거야! 지금이 아니면 영원히 못해.",
       "image": "9.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 12,
