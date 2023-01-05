@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import logo from '../assets/images/logo.png';
+import logo from '../../public/images/logo.png';
 
 import { mobile } from '../styles/theme';
 
 const Logo = () => {
-  return <Container src={logo} alt="Nara Space Technology" />;
+  return <Container src="/images/logo.png" alt="Nara Space Technology" />;
 };
 
 const Container = styled.img`

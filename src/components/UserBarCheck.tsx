@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { userDataType } from '../pages/Main';
-import { deepGray, middleBlue, deepBlue } from '../styles/theme';
+
+import { lightGray, middleBlue, deepBlue } from '../styles/theme';
 
 interface UserBarCheckType {
   handleChange: () => void;
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 10px 0;
   margin: 0 20px;
-  border-bottom: 1px solid ${deepGray};
+  border-bottom: 1px solid ${lightGray};
 `;
 
 const InfoWrapper = styled.div`

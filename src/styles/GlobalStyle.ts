@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import suitVariable from '../assets/fonts/SUIT-Variable.ttf';
 import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
@@ -12,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: "SUIT-Variable";
-    src: url(${suitVariable});
+    src: url('/fonts/SUIT-Variable.ttf');
   }
 
   a {

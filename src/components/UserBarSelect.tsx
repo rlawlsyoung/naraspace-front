@@ -1,16 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { lightGray } from '../styles/theme';
+import { lightGray, middleBlue } from '../styles/theme';
 
-interface UserBarType {
+interface UserBarSelectType {
   name: string;
   date: string;
+  handleClick: () => void;
 }
 
-const UserBar: React.FC<UserBarType> = ({ name, date }) => {
+const UserBarSelect: React.FC<UserBarSelectType> = ({ name, date, handleClick }) => {
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <Wrapper>
         <Name>{name}</Name>
         <p>{date}</p>
@@ -20,6 +21,7 @@ const UserBar: React.FC<UserBarType> = ({ name, date }) => {
 };
 
 const Container = styled.div`
+  cursor: pointer;
   &:last-of-type {
     border: none;
   }
@@ -38,4 +40,4 @@ const Name = styled.p`
   width: 85px;
 `;
 
-export default UserBar;
+export default UserBarSelect;
