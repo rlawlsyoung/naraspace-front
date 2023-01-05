@@ -31,6 +31,7 @@ const Main = () => {
       comment: '',
     },
   ]);
+
   const [isLeftAsc, setIsLeftAsc] = useState(true);
   const [isRightAsc, setIsLRightAsc] = useState(true);
   const [toggle, setToggle] = useState(false);
@@ -71,8 +72,15 @@ const Main = () => {
   };
 
   const handleSave = () => {
-    checkedUserData.forEach((data) => {
-      axios.put(`http://localhost:9000/user/${data.id}`, data).then((res) => console.log(res.data));
+    axios('../user-data.json').then((res) => {
+      const result = userData.filter((item) => {
+        return res.data.user.some(
+          (other: userDataType) => other.id === item.id && other.checked !== item.checked,
+        );
+      });
+      result.forEach((data) => {
+        axios.put(`http://localhost:9000/user/${data.id}`, data).then((res) => {});
+      });
     });
   };
 
