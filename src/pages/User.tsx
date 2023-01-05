@@ -175,6 +175,8 @@ interface RightContainerStyleProps {
 }
 
 const Container = styled.div`
+  height: calc(100vh - 70px);
+  margin-top: 70px;
   margin-top: 70px;
   font-size: 14px;
 
