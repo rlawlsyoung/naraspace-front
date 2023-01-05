@@ -8,7 +8,7 @@ import UserBarWrapper from '../components/UserBarWrapper';
 import UserBarSelect from '../components/UserBarSelect';
 
 import { userDataType } from './Main';
-import { lightSkyBlue, lightGray, deepGray, deepBlue } from '../styles/theme';
+import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
 
 const User = () => {
   const [checkedUserData, setCheckedUserData] = useState([
@@ -175,9 +175,14 @@ interface RightContainerStyleProps {
 }
 
 const Container = styled.div`
-  height: calc(100vh - 70px);
   margin-top: 70px;
   font-size: 14px;
+
+  @media ${mobile} {
+    flex-direction: column-reverse;
+    height: calc(100vh - 120px);
+    margin-top: 120px;
+  }
 `;
 
 const LeftContainer = styled.div`
@@ -185,12 +190,21 @@ const LeftContainer = styled.div`
   flex-direction: column;
   width: 250px;
   color: black;
+
+  @media ${mobile} {
+    width: 90vw;
+  }
 `;
 
 const RightContainer = styled.div<RightContainerStyleProps>`
   position: relative;
   width: ${(props) => props.width};
   margin-left: ${(props) => props.url === '/user' && '20px'};
+
+  @media ${mobile} {
+    width: 90vw;
+    margin-left: 0;
+  }
 `;
 
 const DetailLink = styled(Link)`
@@ -213,6 +227,10 @@ const PreviousLink = styled(Link)`
 const ContainerTop = styled.div`
   height: 160px;
   background-color: ${lightSkyBlue};
+
+  @media ${mobile} {
+    height: 120px;
+  }
 `;
 
 const ProfileImage = styled.img<{ isDetail: boolean }>`
@@ -224,6 +242,13 @@ const ProfileImage = styled.img<{ isDetail: boolean }>`
   border-radius: 90px;
   background-color: white;
   box-shadow: 0px 2px 6px 1.5px ${deepGray};
+
+  @media ${mobile} {
+    top: 40px;
+    left: calc(45vw - 60px);
+    width: 120px;
+    height: 120px;
+  }
 `;
 
 const ContainerBottom = styled.div`
@@ -231,6 +256,11 @@ const ContainerBottom = styled.div`
   height: 250px;
   padding-top: 50px;
   background-color: white;
+
+  @media ${mobile} {
+    height: 25vh;
+    padding-top: 30px;
+  }
 `;
 
 const InfoBar = styled.div`

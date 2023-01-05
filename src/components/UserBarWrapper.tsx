@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { deepGray, lightGray } from '../styles/theme';
+import { deepGray, lightGray, mobile } from '../styles/theme';
 
 interface UserBarWrapperType {
   children: React.ReactNode;
@@ -34,6 +34,10 @@ const Container = styled.div<{ height: string }>`
   &::-webkit-scrollbar-track {
     border-radius: 2.5px;
     background-color: ${lightGray};
+  }
+
+  @media ${mobile} {
+    height: 200px;
   }
 `;
 
