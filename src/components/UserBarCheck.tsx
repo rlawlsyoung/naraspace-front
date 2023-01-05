@@ -1,7 +1,8 @@
 import React from 'react';
+import { AiOutlineCheck } from 'react-icons/ai';
 import styled from 'styled-components';
 
-import { lightGray, middleBlue, deepBlue } from '../styles/theme';
+import { lightGray, middleBlue, deepBlue, deepGray } from '../styles/theme';
 
 interface UserBarCheckType {
   handleChange: () => void;
@@ -18,7 +19,12 @@ const UserBarCheck: React.FC<UserBarCheckType> = ({ handleChange, name, date, ch
           <Name>{name}</Name>
           <p>{date}</p>
         </InfoWrapper>
-        <CheckBox type="checkbox" checked={checked} readOnly />
+        <CheckboxContainer>
+          <CheckBox checked={checked} className="flex-center">
+            <HiddenCheckbox type="checkbox" checked={checked} readOnly />
+            {checked && <Check size={10} color="white" />}
+          </CheckBox>
+        </CheckboxContainer>
       </Wrapper>
     </Container>
   );
@@ -56,8 +62,32 @@ const Name = styled.p`
   width: 85px;
 `;
 
-const CheckBox = styled.input`
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const CheckBox = styled.label<{ checked: boolean }>`
+  width: 15px;
+  height: 15px;
+  margin: 2.5px;
+  border: 1.5px solid ${deepGray};
+  border-radius: 2.5px;
+  background: ${({ checked }) => (checked ? `${deepBlue}` : 'white')};
   cursor: pointer;
 `;
+
+const HiddenCheckbox = styled.input`
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+`;
+
+const Check = styled(AiOutlineCheck)``;
 
 export default UserBarCheck;

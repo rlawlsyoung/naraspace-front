@@ -11,10 +11,20 @@ import { userDataType } from './Main';
 import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
 
 const User = () => {
+  const [isShowOptions, setIsShowOptions] = useState(false);
   const [checkedUserData, setCheckedUserData] = useState([
     { id: 0, name: '', date: '', checked: false, image: '', comment: '' },
   ]);
   const [selectedUser, setSelectedUser] = useState({
+    id: 0,
+    name: '',
+    date: '',
+    checked: false,
+    image: '',
+    comment: '',
+  });
+
+  const [detailUser, setDetailUser] = useState({
     id: 0,
     name: '존재하지 않는 사용자입니다.',
     date: '',
@@ -26,23 +36,30 @@ const User = () => {
   const [isAsc, setIsAsc] = useState(true);
 
   useEffect(() => {
-    axios('/data/user-data.json').then((res) => {
-      res.data &&
-        setCheckedUserData(
-          userDataSort(
-            res.data.filter((data: userDataType) => data.checked),
-            isAsc,
-          ),
-        );
-      location.pathname !== '/user' &&
-        res.data &&
-        res.data[res.data.length - 1].id >= Number(location.pathname.substr(6)) &&
-        0 < Number(location.pathname.substr(6)) &&
-        setSelectedUser(
-          res.data.find((data: userDataType) => data.id === Number(location.pathname.substr(6))),
-        );
-    });
-  }, []);
+    try {
+      axios('../user-data.json').then((res) => {
+        res.data.user &&
+          location.pathname === '/user' &&
+          setCheckedUserData(
+            userDataSort(
+              res.data.user.filter((data: userDataType) => data.checked),
+              isAsc,
+            ),
+          );
+        location.pathname !== '/user' &&
+          res.data.user &&
+          res.data.user[res.data.user.length - 1].id >= Number(location.pathname.substr(6)) &&
+          0 < Number(location.pathname.substr(6)) &&
+          setDetailUser(
+            res.data.user.find(
+              (data: userDataType) => data.id === Number(location.pathname.substr(6)),
+            ),
+          );
+      });
+    } catch (err) {
+      console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const reversedUserData = userDataSort([...checkedUserData], isAsc);
@@ -54,8 +71,8 @@ const User = () => {
     else return '0.png';
   };
 
-  const handleChange = () => {
-    setIsAsc(!isAsc);
+  const handleClickOutside = () => {
+    isShowOptions && setIsShowOptions(!isShowOptions);
   };
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
@@ -86,9 +103,13 @@ const User = () => {
   }, []);
 
   return location.pathname === '/user' ? (
-    <Container className="flex-center">
+    <Container className="flex-center" onClick={handleClickOutside}>
       <LeftContainer>
-        <ContainerHeader handleChange={handleChange} />
+        <ContainerHeader
+          isShowOptions={isShowOptions}
+          setIsShowOptions={setIsShowOptions}
+          setIsAsc={setIsAsc}
+        />
         <UserBarWrapper height="320px">
           {checkedUserData[0].id !== 0 &&
             checkedUserData.map((data) => {
@@ -147,21 +168,21 @@ const User = () => {
         <ContainerTop />
         <ProfileImage
           isDetail={true}
-          src={'/images/' + suitableImg(selectedUser.image)}
+          src={'/images/' + suitableImg(detailUser.image)}
           alt="프로필 이미지"
         />
         <ContainerBottom className="flex-center">
           <InfoBar>
             <Name>이름</Name>
-            <p>{selectedUser.name}</p>
+            <p>{detailUser.name}</p>
           </InfoBar>
           <InfoBar>
             <Name>생년월일</Name>
-            <p>{selectedUser.date}</p>
+            <p>{detailUser.date}</p>
           </InfoBar>
           <InfoBar>
             <Name>한마디</Name>
-            <p>{selectedUser.comment}</p>
+            <p>{detailUser.comment}</p>
           </InfoBar>
         </ContainerBottom>
       </RightContainer>

@@ -1,12 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { FaArrowRight } from 'react-icons/fa';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from '@mui/material';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
 import UserBarWrapper from '../components/UserBarWrapper';
 import UserBarCheck from '../components/UserBarCheck';
 import UserBar from '../components/UserBar';
-import { deepGray, deepBlue } from '../styles/theme';
+import { deepGray, deepBlue, mobile } from '../styles/theme';
 
 export interface userDataType {
   id: number;
@@ -31,15 +39,24 @@ const Main = () => {
       comment: '',
     },
   ]);
+
   const [isLeftAsc, setIsLeftAsc] = useState(true);
-  const [isRightAsc, setIsLRightAsc] = useState(true);
+  const [isRightAsc, setIsRightAsc] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isShowOptionsLeft, setIsShowOptionsLeft] = useState(false);
+  const [isShowOptionsRight, setIsShowOptionsRight] = useState(false);
+
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
-    axios('/data/user-data.json').then((res) => {
-      res.data && setUserData(userDataSort(res.data, isLeftAsc));
-      setToggle(!toggle);
-    });
+    try {
+      axios('../user-data.json').then((res) => {
+        res.data && setUserData(userDataSort(res.data.user, isLeftAsc));
+        setToggle(!toggle);
+      });
+    } catch (err) {
+      console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
+    }
   }, []);
 
   useEffect(() => {
@@ -62,13 +79,35 @@ const Main = () => {
     setCheckedUserData(reversedUserData);
   }, [isRightAsc]);
 
-  const handleLeftChange = () => {
-    setIsLeftAsc(!isLeftAsc);
-  };
+  const handleDialogClose = useCallback(() => setIsDialogOpen(false), []);
 
-  const handleRightChange = () => {
-    setIsLRightAsc(!isRightAsc);
-  };
+  const handleClickOutside = useCallback(() => {
+    isShowOptionsLeft && setIsShowOptionsLeft(!isShowOptionsLeft);
+    isShowOptionsRight && setIsShowOptionsRight(!isShowOptionsRight);
+  }, [isShowOptionsLeft, isShowOptionsRight]);
+
+  const handleSave = useCallback(() => {
+    try {
+      axios('../user-data.json').then((res) => {
+        const result = userData.filter((item) => {
+          return res.data.user.some(
+            (other: userDataType) => other.id === item.id && other.checked !== item.checked,
+          );
+        });
+        result.forEach((data) => {
+          try {
+            axios.put(`http://localhost:9000/user/${data.id}`, data).then(() => {
+              setIsDialogOpen(true);
+            });
+          } catch (err) {
+            console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
+          }
+        });
+      });
+    } catch (err) {
+      console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
+    }
+  }, [userData]);
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
     const newData = [...data];
@@ -98,9 +137,13 @@ const Main = () => {
   }, []);
 
   return (
-    <Container className="flex-center">
+    <Container className="flex-center" onClick={handleClickOutside}>
       <LeftContainer>
-        <ContainerHeader handleChange={handleLeftChange} />
+        <ContainerHeader
+          isShowOptions={isShowOptionsLeft}
+          setIsShowOptions={setIsShowOptionsLeft}
+          setIsAsc={setIsLeftAsc}
+        />
         <UserBarWrapper height="400px">
           {userData[0].id !== 0 &&
             userData.map((data) => {
@@ -123,9 +166,13 @@ const Main = () => {
             })}
         </UserBarWrapper>
       </LeftContainer>
-      <FaArrowRight size={40} className="arrow" />
+      <FaArrowRight className="arrow" />
       <RightContainer>
-        <ContainerHeader handleChange={handleRightChange} />
+        <ContainerHeader
+          isShowOptions={isShowOptionsRight}
+          setIsShowOptions={setIsShowOptionsRight}
+          setIsAsc={setIsRightAsc}
+        />
         <UserBarWrapper height="320px">
           {checkedUserData[0].id !== 0 &&
             checkedUserData.map((data) => (
@@ -133,9 +180,28 @@ const Main = () => {
             ))}
         </UserBarWrapper>
         <ButtonContainer className="flex-center">
-          <SaveButton>저장하기</SaveButton>
+          <SaveButton onClick={handleSave}>저장하기</SaveButton>
         </ButtonContainer>
       </RightContainer>
+      <SaveDialog
+        open={isDialogOpen}
+        onClose={handleDialogClose}
+        PaperProps={{
+          style: { borderRadius: 0 },
+        }}
+      >
+        <DialogTitle>저장 완료</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            user-data.json 파일에 저장되었습니다.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary" autoFocus>
+            닫기
+          </Button>
+        </DialogActions>
+      </SaveDialog>
     </Container>
   );
 };
@@ -148,6 +214,19 @@ const Container = styled.div`
 
   .arrow {
     margin: 0 50px;
+    font-size: 40px;
+  }
+
+  @media ${mobile} {
+    flex-direction: column;
+    height: calc(100vh - 120px);
+    margin-top: 120px;
+
+    .arrow {
+      font-size: 20px;
+      transform: rotate(90deg);
+      margin: 5px 0;
+    }
   }
 `;
 
@@ -156,6 +235,10 @@ const LeftContainer = styled.div`
   flex-direction: column;
   width: 250px;
   color: black;
+
+  @media ${mobile} {
+    width: 90vw;
+  }
 `;
 
 const RightContainer = styled.div`
@@ -164,6 +247,10 @@ const RightContainer = styled.div`
   position: relative;
   width: 250px;
   color: black;
+
+  @media ${mobile} {
+    width: 90vw;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -179,6 +266,11 @@ const SaveButton = styled.button`
   color: white;
   font-family: 'SUIT-Variable', sans-serif;
   cursor: pointer;
+`;
+
+const SaveDialog = styled(Dialog)`
+  overflow: hidden;
+  font-family: 'SUIT-Variable', sans-serif;
 `;
 
 export default Main;
