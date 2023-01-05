@@ -6,7 +6,7 @@
       "date": "1984-02-23",
       "comment": "I like to play.",
       "image": "1.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 2,
@@ -22,7 +22,7 @@
       "date": "2020-10-11",
       "comment": "Have a nice day!",
       "image": "3.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 4,
