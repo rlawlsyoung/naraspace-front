@@ -21,6 +21,7 @@ const ContainerHeader: React.FC<ContainerHeaderType> = ({ handleChange }) => {
     </Container>
   );
 };
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;

@@ -1,7 +1,14 @@
 import styled from 'styled-components';
+import ContainerHeader from '../components/ContainerHeader';
 
 const User = () => {
-  return <Container>User</Container>;
+  const handleChange = () => {};
+
+  return (
+    <Container className="flex-center">
+      <ContainerHeader handleChange={handleChange} />
+    </Container>
+  );
 };
 
 const Container = styled.div`

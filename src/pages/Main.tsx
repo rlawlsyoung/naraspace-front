@@ -3,9 +3,10 @@ import axios from 'axios';
 import { FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
+import UserBarWrapper from '../components/UserBarWrapper';
 import UserBarCheck from '../components/UserBarCheck';
 import UserBar from '../components/UserBar';
-import { deepGray, deepBlue, lightGray } from '../styles/theme';
+import { deepGray, deepBlue } from '../styles/theme';
 
 export interface userDataType {
   id: number;
@@ -100,7 +101,7 @@ const Main = () => {
     <Container className="flex-center">
       <LeftContainer>
         <ContainerHeader handleChange={handleLeftChange} />
-        <UserBarCheckWrapper height="400px">
+        <UserBarWrapper height="400px">
           {userData[0].id !== 0 &&
             userData.map((data) => {
               const handleChange = () => {
@@ -120,16 +121,16 @@ const Main = () => {
                 />
               );
             })}
-        </UserBarCheckWrapper>
+        </UserBarWrapper>
       </LeftContainer>
       <FaArrowRight size={40} className="arrow" />
       <RightContainer>
         <ContainerHeader handleChange={handleRightChange} />
-        <UserBarCheckWrapper height="320px">
+        <UserBarWrapper height="320px">
           {checkedUserData.map((data) => (
             <UserBar key={data.id} name={data.name} date={data.date} />
           ))}
-        </UserBarCheckWrapper>
+        </UserBarWrapper>
         <ButtonContainer className="flex-center">
           <SaveButton>저장하기</SaveButton>
         </ButtonContainer>
@@ -162,31 +163,6 @@ const RightContainer = styled.div`
   position: relative;
   width: 250px;
   color: black;
-`;
-
-const UserBarCheckWrapper = styled.div<{ height: string }>`
-  display: flex;
-  flex-direction: column;
-  height: ${(props) => props.height};
-  background-color: white;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    position: fixed;
-    left: 0;
-    width: 5px;
-    padding-left: 100px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 2.5px;
-    background-color: ${deepGray};
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 2.5px;
-    background-color: ${lightGray};
-  }
 `;
 
 const ButtonContainer = styled.div`
