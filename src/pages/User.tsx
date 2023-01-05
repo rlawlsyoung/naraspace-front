@@ -16,6 +16,15 @@ const User = () => {
   ]);
   const [selectedUser, setSelectedUser] = useState({
     id: 0,
+    name: '',
+    date: '',
+    checked: false,
+    image: '',
+    comment: '',
+  });
+
+  const [detailUser, setDetailUser] = useState({
+    id: 0,
     name: '존재하지 않는 사용자입니다.',
     date: '',
     checked: false,
@@ -26,23 +35,26 @@ const User = () => {
   const [isAsc, setIsAsc] = useState(true);
 
   useEffect(() => {
-    axios('/data/user-data.json').then((res) => {
-      res.data &&
+    axios('../user-data.json').then((res) => {
+      res.data.user &&
+        location.pathname === '/user' &&
         setCheckedUserData(
           userDataSort(
-            res.data.filter((data: userDataType) => data.checked),
+            res.data.user.filter((data: userDataType) => data.checked),
             isAsc,
           ),
         );
       location.pathname !== '/user' &&
-        res.data &&
-        res.data[res.data.length - 1].id >= Number(location.pathname.substr(6)) &&
+        res.data.user &&
+        res.data.user[res.data.user.length - 1].id >= Number(location.pathname.substr(6)) &&
         0 < Number(location.pathname.substr(6)) &&
-        setSelectedUser(
-          res.data.find((data: userDataType) => data.id === Number(location.pathname.substr(6))),
+        setDetailUser(
+          res.data.user.find(
+            (data: userDataType) => data.id === Number(location.pathname.substr(6)),
+          ),
         );
     });
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     const reversedUserData = userDataSort([...checkedUserData], isAsc);
@@ -147,21 +159,21 @@ const User = () => {
         <ContainerTop />
         <ProfileImage
           isDetail={true}
-          src={'/images/' + suitableImg(selectedUser.image)}
+          src={'/images/' + suitableImg(detailUser.image)}
           alt="프로필 이미지"
         />
         <ContainerBottom className="flex-center">
           <InfoBar>
             <Name>이름</Name>
-            <p>{selectedUser.name}</p>
+            <p>{detailUser.name}</p>
           </InfoBar>
           <InfoBar>
             <Name>생년월일</Name>
-            <p>{selectedUser.date}</p>
+            <p>{detailUser.date}</p>
           </InfoBar>
           <InfoBar>
             <Name>한마디</Name>
-            <p>{selectedUser.comment}</p>
+            <p>{detailUser.comment}</p>
           </InfoBar>
         </ContainerBottom>
       </RightContainer>

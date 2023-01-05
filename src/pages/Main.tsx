@@ -36,8 +36,8 @@ const Main = () => {
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
-    axios('/data/user-data.json').then((res) => {
-      res.data && setUserData(userDataSort(res.data, isLeftAsc));
+    axios('../user-data.json').then((res) => {
+      res.data && setUserData(userDataSort(res.data.user, isLeftAsc));
       setToggle(!toggle);
     });
   }, []);
@@ -70,7 +70,11 @@ const Main = () => {
     setIsLRightAsc(!isRightAsc);
   };
 
-  console.log(screen.width);
+  const handleSave = () => {
+    checkedUserData.forEach((data) => {
+      axios.put(`http://localhost:9000/user/${data.id}`, data).then((res) => console.log(res.data));
+    });
+  };
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
     const newData = [...data];
@@ -135,7 +139,7 @@ const Main = () => {
             ))}
         </UserBarWrapper>
         <ButtonContainer className="flex-center">
-          <SaveButton>저장하기</SaveButton>
+          <SaveButton onClick={handleSave}>저장하기</SaveButton>
         </ButtonContainer>
       </RightContainer>
     </Container>
