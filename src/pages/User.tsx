@@ -16,7 +16,7 @@ const User = () => {
   ]);
   const [selectedUser, setSelectedUser] = useState({
     id: 0,
-    name: '',
+    name: '존재하지 않는 사용자입니다.',
     date: '',
     checked: false,
     image: '',
@@ -138,36 +138,34 @@ const User = () => {
       )}
     </Container>
   ) : (
-    selectedUser.id !== 0 && (
-      <Container className="flex-center">
-        <RightContainer url={location.pathname} width="620px">
-          <PreviousLink to="/user" className="flex-center">
-            <AiOutlineLeft />
-            뒤로 가기
-          </PreviousLink>
-          <ContainerTop />
-          <ProfileImage
-            isDetail={true}
-            src={'/images/' + suitableImg(selectedUser.image)}
-            alt="프로필 이미지"
-          />
-          <ContainerBottom className="flex-center">
-            <InfoBar>
-              <Name>이름</Name>
-              <p>{selectedUser.name}</p>
-            </InfoBar>
-            <InfoBar>
-              <Name>생년월일</Name>
-              <p>{selectedUser.date}</p>
-            </InfoBar>
-            <InfoBar>
-              <Name>한마디</Name>
-              <p>{selectedUser.comment}</p>
-            </InfoBar>
-          </ContainerBottom>
-        </RightContainer>
-      </Container>
-    )
+    <Container className="flex-center">
+      <RightContainer url={location.pathname} width="620px">
+        <PreviousLink to="/user" className="flex-center">
+          <AiOutlineLeft />
+          뒤로 가기
+        </PreviousLink>
+        <ContainerTop />
+        <ProfileImage
+          isDetail={true}
+          src={'/images/' + suitableImg(selectedUser.image)}
+          alt="프로필 이미지"
+        />
+        <ContainerBottom className="flex-center">
+          <InfoBar>
+            <Name>이름</Name>
+            <p>{selectedUser.name}</p>
+          </InfoBar>
+          <InfoBar>
+            <Name>생년월일</Name>
+            <p>{selectedUser.date}</p>
+          </InfoBar>
+          <InfoBar>
+            <Name>한마디</Name>
+            <p>{selectedUser.comment}</p>
+          </InfoBar>
+        </ContainerBottom>
+      </RightContainer>
+    </Container>
   );
 };
 
