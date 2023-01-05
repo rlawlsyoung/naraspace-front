@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { blue, lightSkyBlue, mobile } from '../styles/theme';
+import { deepBlue, lightBlue, mobile } from '../styles/theme';
 
 interface PageButtonType {
   text: string;
@@ -12,8 +12,13 @@ interface PageButtonType {
 const PageButton: React.FC<PageButtonType> = ({ text, goal }) => {
   const location = useLocation();
 
+  const cutUrlLength = (url: string) => {
+    if (url.length > 5) return url.substr(0, 5);
+    else return url;
+  };
+
   return (
-    <Container className="flex-center" url={location.pathname} goal={goal}>
+    <Container className="flex-center" url={cutUrlLength(location.pathname)} goal={goal}>
       <Link to={goal} className="flex-center">
         {text}
       </Link>
@@ -21,24 +26,24 @@ const PageButton: React.FC<PageButtonType> = ({ text, goal }) => {
   );
 };
 
-interface PropsType {
+interface StyledPropsType {
   url: string;
   goal: string;
 }
 
-const Container = styled.div<PropsType>`
+const Container = styled.div<StyledPropsType>`
   margin: 0 17.5px;
   font-weight: ${(props) => props.url === props.goal && 700};
 
   a {
-    color: ${(props) => (props.url === props.goal ? blue : 'white')};
+    color: ${(props) => (props.url === props.goal ? deepBlue : 'white')};
   }
 
   @media ${mobile} {
     height: 50px;
     width: 50%;
     margin: 0;
-    background-color: ${(props) => (props.url === props.goal ? blue : lightSkyBlue)};
+    background-color: ${(props) => (props.url === props.goal ? deepBlue : lightBlue)};
     transition: background-color 0.3s;
 
     a {
@@ -51,7 +56,7 @@ const Container = styled.div<PropsType>`
   @media (hover: hover) {
     a {
       &:hover {
-        color: ${blue};
+        color: ${deepBlue};
         font-weight: 700;
         transition: 0.3s;
       }
