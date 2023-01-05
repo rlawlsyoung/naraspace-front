@@ -127,9 +127,10 @@ const Main = () => {
       <RightContainer>
         <ContainerHeader handleChange={handleRightChange} />
         <UserBarWrapper height="320px">
-          {checkedUserData.map((data) => (
-            <UserBar key={data.id} name={data.name} date={data.date} />
-          ))}
+          {checkedUserData[0].id !== 0 &&
+            checkedUserData.map((data) => (
+              <UserBar key={data.id} name={data.name} date={data.date} />
+            ))}
         </UserBarWrapper>
         <ButtonContainer className="flex-center">
           <SaveButton>저장하기</SaveButton>

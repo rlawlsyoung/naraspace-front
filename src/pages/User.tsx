@@ -80,19 +80,22 @@ const User = () => {
       <LeftContainer>
         <ContainerHeader handleChange={handleChange} />
         <UserBarWrapper height="320px">
-          {userData.map((data) => {
-            const handleClick = () => {
-              setSelectedUser(data);
-            };
-            return (
-              <UserBarSelect
-                key={data.id}
-                name={data.name}
-                date={data.date}
-                handleClick={handleClick}
-              />
-            );
-          })}
+          {userData[0].id !== 0 &&
+            userData.map((data) => {
+              const handleClick = () => {
+                setSelectedUser(data);
+              };
+              return (
+                <UserBarSelect
+                  key={data.id}
+                  id={data.id}
+                  selectedId={selectedUser.id}
+                  name={data.name}
+                  date={data.date}
+                  handleClick={handleClick}
+                />
+              );
+            })}
         </UserBarWrapper>
       </LeftContainer>
       {selectedUser.id !== 0 && (

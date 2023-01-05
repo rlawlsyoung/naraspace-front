@@ -1,17 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { lightGray, middleBlue } from '../styles/theme';
+import { lightGray, middleBlue, deepBlue } from '../styles/theme';
 
 interface UserBarSelectType {
+  id: number;
+  selectedId: number;
   name: string;
   date: string;
   handleClick: () => void;
 }
 
-const UserBarSelect: React.FC<UserBarSelectType> = ({ name, date, handleClick }) => {
+const UserBarSelect: React.FC<UserBarSelectType> = ({
+  id,
+  selectedId,
+  name,
+  date,
+  handleClick,
+}) => {
   return (
-    <Container onClick={handleClick}>
+    <Container onClick={handleClick} relevantId={id} selectedId={selectedId}>
       <Wrapper>
         <Name>{name}</Name>
         <p>{date}</p>
@@ -20,11 +28,18 @@ const UserBarSelect: React.FC<UserBarSelectType> = ({ name, date, handleClick })
   );
 };
 
-const Container = styled.div`
+interface StyledPropsType {
+  relevantId: number;
+  selectedId: number;
+}
+
+const Container = styled.div<StyledPropsType>`
   cursor: pointer;
   &:last-of-type {
     border: none;
   }
+  background-color: ${(props) => props.relevantId === props.selectedId && middleBlue};
+  color: ${(props) => props.relevantId === props.selectedId && deepBlue};
 `;
 
 const Wrapper = styled.div`
