@@ -41,7 +41,7 @@ const Main = () => {
   ]);
 
   const [isLeftAsc, setIsLeftAsc] = useState(true);
-  const [isRightAsc, setIsLRightAsc] = useState(true);
+  const [isRightAsc, setIsRightAsc] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [toggle, setToggle] = useState(false);
 
@@ -76,15 +76,6 @@ const Main = () => {
     setCheckedUserData(reversedUserData);
   }, [isRightAsc]);
 
-  const handleLeftChange = () => {
-    setIsLeftAsc(!isLeftAsc);
-  };
-
-  const handleRightChange = () => {
-    setIsLRightAsc(!isRightAsc);
-  };
-
-  const handleDialogOpen = () => setIsDialogOpen(true);
   const handleDialogClose = () => setIsDialogOpen(false);
 
   const handleSave = () => {
@@ -140,7 +131,7 @@ const Main = () => {
   return (
     <Container className="flex-center">
       <LeftContainer>
-        <ContainerHeader handleChange={handleLeftChange} />
+        <ContainerHeader setIsAsc={setIsLeftAsc} />
         <UserBarWrapper height="400px">
           {userData[0].id !== 0 &&
             userData.map((data) => {
@@ -165,7 +156,7 @@ const Main = () => {
       </LeftContainer>
       <FaArrowRight className="arrow" />
       <RightContainer>
-        <ContainerHeader handleChange={handleRightChange} />
+        <ContainerHeader setIsAsc={setIsRightAsc} />
         <UserBarWrapper height="320px">
           {checkedUserData[0].id !== 0 &&
             checkedUserData.map((data) => (

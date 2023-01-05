@@ -104,7 +104,7 @@ const User = () => {
   return location.pathname === '/user' ? (
     <Container className="flex-center">
       <LeftContainer>
-        <ContainerHeader handleChange={handleChange} />
+        <ContainerHeader setIsAsc={setIsAsc} />
         <UserBarWrapper height="320px">
           {checkedUserData[0].id !== 0 &&
             checkedUserData.map((data) => {
