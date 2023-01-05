@@ -20,7 +20,6 @@ const UserBar: React.FC<UserBarType> = ({ name, date }) => {
 };
 
 const Container = styled.div`
-  cursor: pointer;
   &:last-of-type {
     border: none;
   }
