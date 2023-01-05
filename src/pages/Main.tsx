@@ -51,33 +51,49 @@ const Main = () => {
       );
   }, [userData && toggle]);
 
-  const handleLeftChange = () => {
-    const reversedUserData = [...userData].reverse();
+  useEffect(() => {
+    const reversedUserData = userDataSort([...userData], isLeftAsc);
     setUserData(reversedUserData);
+  }, [isLeftAsc]);
+
+  useEffect(() => {
+    const reversedUserData = userDataSort([...checkedUserData], isRightAsc);
+    setCheckedUserData(reversedUserData);
+  }, [isRightAsc]);
+
+  const handleLeftChange = () => {
     setIsLeftAsc(!isLeftAsc);
   };
 
   const handleRightChange = () => {
-    const reversedUserData = [...checkedUserData].reverse();
-    setCheckedUserData(reversedUserData);
     setIsLRightAsc(!isRightAsc);
   };
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
     const newData = [...data];
-    newData.sort((a, b) => {
-      let x = a.name.toLowerCase();
-      let y = b.name.toLowerCase();
-      if (a.date !== b.date) return new Date(a.date).getTime() - new Date(b.date).getTime();
-      else if (x < y) {
-        return -1;
-      } else if (x > y) {
-        return 1;
-      }
-      return 0;
-    });
-    if (isAsc) return newData;
-    else return newData.reverse();
+    if (isAsc) {
+      newData.sort((a, b) => {
+        if (a.date !== b.date) return new Date(a.date).getTime() - new Date(b.date).getTime();
+        else if (a.name.toLowerCase() < b.name.toLowerCase()) {
+          return -1;
+        } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+          return 1;
+        }
+        return 0;
+      });
+      return newData;
+    } else {
+      newData.sort((a, b) => {
+        if (a.date !== b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
+        else if (a.name.toLowerCase() < b.name.toLowerCase()) {
+          return -1;
+        } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+          return 1;
+        }
+        return 0;
+      });
+      return newData;
+    }
   }, []);
 
   return (
