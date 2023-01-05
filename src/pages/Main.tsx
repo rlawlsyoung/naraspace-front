@@ -79,14 +79,14 @@ const Main = () => {
     setCheckedUserData(reversedUserData);
   }, [isRightAsc]);
 
-  const handleDialogClose = () => setIsDialogOpen(false);
+  const handleDialogClose = useCallback(() => setIsDialogOpen(false), []);
 
-  const handleClickOutside = () => {
+  const handleClickOutside = useCallback(() => {
     isShowOptionsLeft && setIsShowOptionsLeft(!isShowOptionsLeft);
     isShowOptionsRight && setIsShowOptionsRight(!isShowOptionsRight);
-  };
+  }, [isShowOptionsLeft, isShowOptionsRight]);
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     try {
       axios('../user-data.json').then((res) => {
         const result = userData.filter((item) => {
@@ -107,7 +107,7 @@ const Main = () => {
     } catch (err) {
       console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
     }
-  };
+  }, [userData]);
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
     const newData = [...data];

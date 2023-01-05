@@ -6,7 +6,7 @@
       "date": "1984-02-23",
       "comment": "I like to play.",
       "image": "1.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 2,
@@ -62,7 +62,7 @@
       "date": "1999-09-09",
       "comment": "오늘 하루는 어땠어?",
       "image": "7.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 9,
@@ -70,7 +70,7 @@
       "date": "2002-06-07",
       "comment": "지치고 힘들 때 하나씩 꺼내 먹어요.",
       "image": "",
-      "checked": false
+      "checked": true
     },
     {
       "id": 10,
@@ -118,7 +118,7 @@
       "date": "1980-07-31",
       "comment": "알로호모라 (Alohomora)",
       "image": "12.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 16,
@@ -126,7 +126,7 @@
       "date": "1979-09-19",
       "comment": "윙가르디움 레비오우사 (Wingardium Leviosa)",
       "image": "13.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 17,
