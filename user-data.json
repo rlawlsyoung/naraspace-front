@@ -6,7 +6,7 @@
       "date": "1984-02-23",
       "comment": "I like to play.",
       "image": "1.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "date": "1995-01-12",
       "comment": "This is innovation.",
       "image": "2.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 3,
@@ -30,7 +30,7 @@
       "date": "2002-06-07",
       "comment": "Cheers!",
       "image": "",
-      "checked": false
+      "checked": true
     },
     {
       "id": 5,
@@ -46,7 +46,7 @@
       "date": "2013-02-12",
       "comment": "I'll give you only good",
       "image": "5.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 7,
@@ -54,7 +54,7 @@
       "date": "2017-08-12",
       "comment": "해-삐",
       "image": "6.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 8,

@@ -37,10 +37,14 @@ const Main = () => {
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
-    axios('../user-data.json').then((res) => {
-      res.data && setUserData(userDataSort(res.data.user, isLeftAsc));
-      setToggle(!toggle);
-    });
+    try {
+      axios('../user-data.json').then((res) => {
+        res.data && setUserData(userDataSort(res.data.user, isLeftAsc));
+        setToggle(!toggle);
+      });
+    } catch (err) {
+      console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
+    }
   }, []);
 
   useEffect(() => {
@@ -72,16 +76,24 @@ const Main = () => {
   };
 
   const handleSave = () => {
-    axios('../user-data.json').then((res) => {
-      const result = userData.filter((item) => {
-        return res.data.user.some(
-          (other: userDataType) => other.id === item.id && other.checked !== item.checked,
-        );
+    try {
+      axios('../user-data.json').then((res) => {
+        const result = userData.filter((item) => {
+          return res.data.user.some(
+            (other: userDataType) => other.id === item.id && other.checked !== item.checked,
+          );
+        });
+        result.forEach((data) => {
+          try {
+            axios.put(`http://localhost:9000/user/${data.id}`, data).then(() => {});
+          } catch (err) {
+            console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
+          }
+        });
       });
-      result.forEach((data) => {
-        axios.put(`http://localhost:9000/user/${data.id}`, data).then((res) => {});
-      });
-    });
+    } catch (err) {
+      console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
+    }
   };
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {

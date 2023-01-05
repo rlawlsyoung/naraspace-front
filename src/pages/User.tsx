@@ -35,25 +35,29 @@ const User = () => {
   const [isAsc, setIsAsc] = useState(true);
 
   useEffect(() => {
-    axios('../user-data.json').then((res) => {
-      res.data.user &&
-        location.pathname === '/user' &&
-        setCheckedUserData(
-          userDataSort(
-            res.data.user.filter((data: userDataType) => data.checked),
-            isAsc,
-          ),
-        );
-      location.pathname !== '/user' &&
+    try {
+      axios('../user-data.json').then((res) => {
         res.data.user &&
-        res.data.user[res.data.user.length - 1].id >= Number(location.pathname.substr(6)) &&
-        0 < Number(location.pathname.substr(6)) &&
-        setDetailUser(
-          res.data.user.find(
-            (data: userDataType) => data.id === Number(location.pathname.substr(6)),
-          ),
-        );
-    });
+          location.pathname === '/user' &&
+          setCheckedUserData(
+            userDataSort(
+              res.data.user.filter((data: userDataType) => data.checked),
+              isAsc,
+            ),
+          );
+        location.pathname !== '/user' &&
+          res.data.user &&
+          res.data.user[res.data.user.length - 1].id >= Number(location.pathname.substr(6)) &&
+          0 < Number(location.pathname.substr(6)) &&
+          setDetailUser(
+            res.data.user.find(
+              (data: userDataType) => data.id === Number(location.pathname.substr(6)),
+            ),
+          );
+      });
+    } catch (err) {
+      console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
+    }
   }, [location.pathname]);
 
   useEffect(() => {
