@@ -2,7 +2,7 @@
   "user": [
     {
       "image": "1.png",
-      "name": "Porodd",
+      "name": "PoroSad",
       "date": "1984-02-23",
       "comment": "I like to play.",
       "checked": true,
@@ -57,12 +57,12 @@
       "checked": true
     },
     {
-      "id": 8,
-      "name": "라이언",
+      "image": "7.png",
+      "name": "라이언d",
       "date": "1999-09-09",
       "comment": "오늘 하루는 어땠어?",
-      "image": "7.png",
-      "checked": true
+      "checked": true,
+      "id": 8
     },
     {
       "id": 9,

@@ -64,6 +64,15 @@ const User = () => {
     } catch (err) {
       console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
     }
+    location.pathname === '/user' &&
+      setSelectedUser({
+        id: 0,
+        name: '',
+        date: '',
+        checked: false,
+        image: '',
+        comment: '',
+      });
   }, [location.pathname]);
 
   useEffect(() => {
