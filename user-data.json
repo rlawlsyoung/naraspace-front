@@ -1,12 +1,12 @@
 {
   "user": [
     {
-      "id": 1,
+      "image": "12.png",
       "name": "Pororo",
       "date": "1984-02-23",
       "comment": "I like to play.",
-      "image": "1.png",
-      "checked": true
+      "checked": true,
+      "id": 1
     },
     {
       "id": 2,
@@ -73,12 +73,12 @@
       "checked": true
     },
     {
-      "id": 10,
+      "image": "8.png",
       "name": "춘식이",
       "date": "2002-06-07",
       "comment": "춘식이는 고양이",
-      "image": "8.png",
-      "checked": true
+      "checked": true,
+      "id": 10
     },
     {
       "id": 11,
@@ -113,12 +113,12 @@
       "checked": true
     },
     {
-      "id": 15,
+      "image": "12.png",
       "name": "해리포터",
       "date": "1980-07-31",
       "comment": "알로호모라 (Alohomora)",
-      "image": "12.png",
-      "checked": true
+      "checked": true,
+      "id": 15
     },
     {
       "id": 16,
