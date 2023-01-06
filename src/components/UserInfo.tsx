@@ -155,8 +155,12 @@ const UserInfo: React.FC<UserInfoType> = ({
       <ContainerTop />
       {isEditing && (
         <ArrowWrapper isDetail={true}>
-          <MdArrowBackIosNew onClick={handleLeftImage} />
-          <MdArrowForwardIos onClick={handleRightImage} />
+          <Button onClick={handleLeftImage}>
+            <MdArrowBackIosNew />
+          </Button>
+          <Button onClick={handleRightImage}>
+            <MdArrowForwardIos />
+          </Button>
         </ArrowWrapper>
       )}
       <ProfileImage
@@ -262,15 +266,21 @@ const ArrowWrapper = styled.div<{ isDetail: boolean }>`
   top: 100px;
   left: ${(props) => (props.isDetail ? '135px' : '85px')};
   width: 350px;
-  color: ${deepBlue};
   font-size: 60px;
-  cursor: pointer;
 
   @media ${mobile} {
     top: 70px;
     left: calc(45vw - 125px);
     width: 250px;
   }
+`;
+
+const Button = styled.button`
+  border: none;
+  background-color: transparent;
+  color: ${deepBlue};
+  font-size: 60px;
+  cursor: pointer;
 `;
 
 const ProfileImage = styled.img<{ isDetail: boolean }>`

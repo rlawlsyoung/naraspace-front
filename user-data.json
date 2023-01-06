@@ -1,12 +1,12 @@
 {
   "user": [
     {
-      "image": "",
+      "id": 1,
       "name": "Pororo",
       "date": "1984-02-23",
       "comment": "I like to play.",
-      "checked": true,
-      "id": 1
+      "image": "1.png",
+      "checked": true
     },
     {
       "id": 2,
@@ -113,12 +113,12 @@
       "checked": true
     },
     {
-      "image": "12.png",
+      "id": 15,
       "name": "해리포터",
       "date": "1980-07-31",
       "comment": "알로호모라 (Alohomora)",
-      "checked": true,
-      "id": 15
+      "image": "12.png",
+      "checked": true
     },
     {
       "id": 16,
