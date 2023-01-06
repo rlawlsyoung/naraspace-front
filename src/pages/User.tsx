@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import { userDataType } from './Main';
 import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
 
 const User = () => {
+  const navigate = useNavigate();
   const [isShowOptions, setIsShowOptions] = useState(false);
   const [checkedUserData, setCheckedUserData] = useState([
     { id: 0, name: '', date: '', checked: false, image: '', comment: '' },
@@ -43,7 +44,7 @@ const User = () => {
           setCheckedUserData(
             userDataSort(
               res.data.user.filter((data: userDataType) => data.checked),
-              isAsc,
+              true,
             ),
           );
         location.pathname !== '/user' &&
@@ -55,6 +56,7 @@ const User = () => {
               (data: userDataType) => data.id === Number(location.pathname.substr(6)),
             ),
           );
+        location.pathname === '/user' && setIsAsc(true);
       });
     } catch (err) {
       console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
@@ -66,14 +68,14 @@ const User = () => {
     setCheckedUserData(reversedUserData);
   }, [isAsc]);
 
-  const suitableImg = (str: string) => {
+  const suitableImg = useCallback((str: string) => {
     if (str) return str;
     else return '0.png';
-  };
+  }, []);
 
-  const handleClickOutside = () => {
+  const handleClickOutside = useCallback(() => {
     isShowOptions && setIsShowOptions(!isShowOptions);
-  };
+  }, [isShowOptions]);
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
     const newData = [...data];
@@ -161,7 +163,7 @@ const User = () => {
   ) : (
     <Container className="flex-center">
       <RightContainer url={location.pathname} width="620px">
-        <PreviousLink to="/user" className="flex-center">
+        <PreviousLink onClick={() => navigate(-1)} className="flex-center">
           <AiOutlineLeft />
           뒤로 가기
         </PreviousLink>
@@ -238,7 +240,7 @@ const DetailLink = styled(Link)`
   color: ${deepBlue};
 `;
 
-const PreviousLink = styled(Link)`
+const PreviousLink = styled.div`
   position: absolute;
   top: 20px;
   left: 20px;
