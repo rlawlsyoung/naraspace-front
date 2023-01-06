@@ -48,33 +48,39 @@ const UserInfo: React.FC<UserInfoType> = ({
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentValue(e.target.value);
   };
+  const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
+  const dateRegExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
 
   const handleEdit = () => {
-    setIsEditing(!isEditing);
     if (!isEditing) {
       setNameValue(name);
       setDateValue(date);
       setCommentValue(comment);
+      setIsEditing(!isEditing);
     } else {
-      axios
-        .put(`http://localhost:9000/user/${id}`, {
-          image: image,
-          name: nameValue,
-          date: dateValue,
-          comment: commentValue,
-          checked: checked,
-        })
-        .then(() => {
-          const a = {
-            id: id,
+      if (nameRegExp.test(nameValue) && dateRegExp.test(dateValue)) {
+        axios
+          .put(`http://localhost:9000/user/${id}`, {
             image: image,
             name: nameValue,
             date: dateValue,
             comment: commentValue,
             checked: checked,
-          };
-          setDetailUser!(a);
-        });
+          })
+          .then(() => {
+            setDetailUser!({
+              id: id,
+              image: image,
+              name: nameValue,
+              date: dateValue,
+              comment: commentValue,
+              checked: checked,
+            });
+            setIsEditing(!isEditing);
+          });
+      } else {
+        alert('조건 불충족');
+      }
     }
   };
 
@@ -128,15 +134,15 @@ const UserInfo: React.FC<UserInfoType> = ({
           <>
             <InfoBar>
               <Name>이름</Name>
-              <EditInput value={nameValue} onChange={handleNameChange} />
+              <EditInput type="text" value={nameValue} onChange={handleNameChange} maxLength={10} />
             </InfoBar>
             <InfoBar>
               <Name>생년월일</Name>
-              <EditInput value={dateValue} onChange={handleDateChange} />
+              <EditInput value={dateValue} onChange={handleDateChange} maxLength={10} />
             </InfoBar>
             <InfoBar>
               <Name>한마디</Name>
-              <EditInput value={commentValue} onChange={handleCommentChange} />
+              <EditInput value={commentValue} onChange={handleCommentChange} maxLength={42} />
             </InfoBar>
           </>
         ) : (
