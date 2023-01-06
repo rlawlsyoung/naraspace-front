@@ -12,6 +12,7 @@ import { mobile } from '../styles/theme';
 const User = () => {
   const [isShowOptions, setIsShowOptions] = useState(false);
   const [isExistUser, setIsExistUser] = useState(false);
+  const [isAsc, setIsAsc] = useState(true);
   const [checkedUserData, setCheckedUserData] = useState([
     { id: 0, name: '', date: '', checked: false, image: '', comment: '' },
   ]);
@@ -32,8 +33,6 @@ const User = () => {
     image: '',
     comment: '',
   });
-
-  const [isAsc, setIsAsc] = useState(true);
 
   useEffect(() => {
     try {

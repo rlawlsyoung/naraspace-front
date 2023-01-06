@@ -5,16 +5,16 @@
       "name": "PoroSad",
       "date": "1984-02-23",
       "comment": "I like to play.",
-      "checked": true,
+      "checked": false,
       "id": 1
     },
     {
-      "id": 2,
+      "image": "2.png",
       "name": "Apple Kim",
       "date": "1995-01-12",
       "comment": "This is innovation.",
-      "image": "2.png",
-      "checked": true
+      "checked": true,
+      "id": 2
     },
     {
       "image": "3.png",
@@ -117,7 +117,7 @@
       "name": "해리포터",
       "date": "1980-07-31",
       "comment": "알로호모라 (Alohomora)",
-      "checked": true,
+      "checked": false,
       "id": 15
     },
     {
@@ -125,7 +125,7 @@
       "name": "헤르미온느양",
       "date": "1979-09-19",
       "comment": "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
-      "checked": true,
+      "checked": false,
       "id": 16
     },
     {

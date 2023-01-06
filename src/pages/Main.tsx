@@ -1,19 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { FaArrowRight } from 'react-icons/fa';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-} from '@mui/material';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
 import UserBarWrapper from '../components/UserBarWrapper';
 import UserBarCheck from '../components/UserBarCheck';
 import UserBar from '../components/UserBar';
+import Alert from '../components/Alert';
 import { deepGray, deepBlue, mobile } from '../styles/theme';
 
 export interface userDataType {
@@ -183,25 +176,12 @@ const Main = () => {
           <SaveButton onClick={handleSave}>저장하기</SaveButton>
         </ButtonContainer>
       </RightContainer>
-      <SaveDialog
-        open={isDialogOpen}
-        onClose={handleDialogClose}
-        PaperProps={{
-          style: { borderRadius: 0 },
-        }}
-      >
-        <DialogTitle>저장 완료</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            user-data.json 파일에 저장되었습니다.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary" autoFocus>
-            닫기
-          </Button>
-        </DialogActions>
-      </SaveDialog>
+      <Alert
+        isDialogOpen={isDialogOpen}
+        handleDialogClose={handleDialogClose}
+        title="저장 완료"
+        text="user-data.json 파일에 저장되었습니다."
+      />
     </Container>
   );
 };
@@ -266,11 +246,6 @@ const SaveButton = styled.button`
   color: white;
   font-family: 'SUIT-Variable', sans-serif;
   cursor: pointer;
-`;
-
-const SaveDialog = styled(Dialog)`
-  overflow: hidden;
-  font-family: 'SUIT-Variable', sans-serif;
 `;
 
 export default Main;

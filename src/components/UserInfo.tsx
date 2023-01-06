@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AiOutlineRight, AiOutlineLeft, AiTwotoneEdit } from 'react-icons/ai';
 import { FaCheckCircle } from 'react-icons/fa';
 import styled from 'styled-components';
+import Alert from './Alert';
 
 import { userDataType } from '../pages/Main';
 import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
@@ -29,6 +30,7 @@ const UserInfo: React.FC<UserInfoType> = ({
   isExistUser,
   setDetailUser,
 }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [nameValue, setNameValue] = useState('');
   const [dateValue, setDateValue] = useState('');
@@ -50,6 +52,8 @@ const UserInfo: React.FC<UserInfoType> = ({
   };
   const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
   const dateRegExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+
+  const handleDialogClose = useCallback(() => setIsDialogOpen(false), []);
 
   const handleEdit = () => {
     if (!isEditing) {
@@ -79,7 +83,7 @@ const UserInfo: React.FC<UserInfoType> = ({
             setIsEditing(!isEditing);
           });
       } else {
-        alert('조건 불충족');
+        setIsDialogOpen(true);
       }
     }
   };
@@ -162,6 +166,17 @@ const UserInfo: React.FC<UserInfoType> = ({
           </>
         )}
       </ContainerBottom>
+      {isEditing && (
+        <EditGuide className="flex-center">
+          이름은 한글 또는 영어로 1 ~ 10자, <br /> 생년월일은 숫자 사이에 미들바(-)를 작성해주세요.
+        </EditGuide>
+      )}
+      <Alert
+        isDialogOpen={isDialogOpen}
+        handleDialogClose={handleDialogClose}
+        title="조건 불충족"
+        text="명시되어있는 조건에 맞는 값을 입력해주세요."
+      />
     </Container>
   );
 };
@@ -236,6 +251,15 @@ const ContainerBottom = styled.div`
     height: 25vh;
     padding-top: 30px;
   }
+`;
+
+const EditGuide = styled.div`
+  height: 50px;
+  background-color: white;
+  padding: 20px 20px 40px 20px;
+  color: #5c5c5c;
+  font-weight: 600;
+  text-align: center;
 `;
 
 const Edit = styled.div`
