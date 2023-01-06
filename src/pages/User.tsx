@@ -11,6 +11,7 @@ import { mobile } from '../styles/theme';
 
 const User = () => {
   const [isShowOptions, setIsShowOptions] = useState(false);
+  const [isExistUser, setIsExistUser] = useState(false);
   const [checkedUserData, setCheckedUserData] = useState([
     { id: 0, name: '', date: '', checked: false, image: '', comment: '' },
   ]);
@@ -54,6 +55,10 @@ const User = () => {
               (data: userDataType) => data.id === Number(location.pathname.substr(6)),
             ),
           );
+        res.data.user &&
+          res.data.user[res.data.user.length - 1].id >= Number(location.pathname.substr(6)) &&
+          0 < Number(location.pathname.substr(6)) &&
+          setIsExistUser(true);
         location.pathname === '/user' && setIsAsc(true);
       });
     } catch (err) {
@@ -132,6 +137,7 @@ const User = () => {
             name={selectedUser.name}
             date={selectedUser.date}
             comment={selectedUser.comment}
+            isExistUser={isExistUser}
           />
         )}
       </Container>
@@ -145,6 +151,7 @@ const User = () => {
           name={detailUser.name}
           date={detailUser.date}
           comment={detailUser.comment}
+          isExistUser={isExistUser}
         />
       </Container>
     );

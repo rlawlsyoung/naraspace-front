@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
+import { AiOutlineRight, AiOutlineLeft, AiTwotoneEdit } from 'react-icons/ai';
+import { FaCheckCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 
 import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
@@ -11,13 +12,19 @@ interface UserInfoType {
   name: string;
   date: string;
   comment: string;
+  isExistUser: boolean;
 }
 
-const UserInfo: React.FC<UserInfoType> = ({ id, image, name, date, comment }) => {
+const UserInfo: React.FC<UserInfoType> = ({ id, image, name, date, comment, isExistUser }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [nameValue, setNameValue] = useState(name);
+
   const suitableImg = useCallback((str: string) => {
     if (str) return str;
     else return '0.png';
   }, []);
+
+  const handleEdit = () => setIsEditing(!isEditing);
 
   return location.pathname === '/user' ? (
     <Container url={location.pathname} width="350px">
@@ -48,6 +55,20 @@ const UserInfo: React.FC<UserInfoType> = ({ id, image, name, date, comment }) =>
         <AiOutlineLeft />
         뒤로 가기
       </PreviousLink>
+      {isExistUser && (
+        <Edit className="flex-center" onClick={handleEdit}>
+          {isEditing ? (
+            <>
+              <FaCheckCircle />
+              <p>완료</p>
+            </>
+          ) : (
+            <>
+              <AiTwotoneEdit /> <p>프로필 수정</p>
+            </>
+          )}
+        </Edit>
+      )}
       <ContainerTop />
       <ProfileImage isDetail={true} src={'/images/' + suitableImg(image)} alt="프로필 이미지" />
       <ContainerBottom className="flex-center">
@@ -137,6 +158,24 @@ const ContainerBottom = styled.div`
   @media ${mobile} {
     height: 25vh;
     padding-top: 30px;
+  }
+`;
+
+const Edit = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #5c5c5c;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  p {
+    margin-left: 5px;
+  }
+
+  &:hover {
+    color: black;
   }
 `;
 
