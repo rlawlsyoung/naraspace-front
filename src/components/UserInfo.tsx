@@ -1,13 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AiOutlineRight, AiOutlineLeft, AiTwotoneEdit } from 'react-icons/ai';
+import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { FaCheckCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 import Alert from './Alert';
 
 import { userDataType } from '../pages/Main';
 import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
+import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
 
 interface UserInfoType {
   id: number;
@@ -32,6 +34,7 @@ const UserInfo: React.FC<UserInfoType> = ({
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [imageValue, setImageValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [commentValue, setCommentValue] = useState('');
@@ -51,6 +54,22 @@ const UserInfo: React.FC<UserInfoType> = ({
     setCommentValue(e.target.value);
   }, []);
 
+  useEffect(() => {
+    console.log(imageValue);
+  }, [imageValue]);
+
+  const handleLeftImage = useCallback(() => {
+    if (parseInt(imageValue) - 1 > 0) setImageValue(parseInt(imageValue) - 1 + '.png');
+    else if (imageValue === '') setImageValue('14.png');
+    else setImageValue('');
+  }, [imageValue]);
+
+  const handleRightImage = useCallback(() => {
+    if (parseInt(imageValue) + 1 <= 14) setImageValue(parseInt(imageValue) + 1 + '.png');
+    else if (imageValue === '') setImageValue('1.png');
+    else setImageValue('');
+  }, [imageValue]);
+
   const handleDialogClose = useCallback(() => setIsDialogOpen(false), []);
 
   const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
@@ -61,12 +80,13 @@ const UserInfo: React.FC<UserInfoType> = ({
       setNameValue(name);
       setDateValue(date);
       setCommentValue(comment);
+      setImageValue(image);
       setIsEditing(!isEditing);
     } else {
       if (nameRegExp.test(nameValue) && dateRegExp.test(dateValue)) {
         axios
           .put(`http://localhost:9000/user/${id}`, {
-            image: image,
+            image: imageValue,
             name: nameValue,
             date: dateValue,
             comment: commentValue,
@@ -75,7 +95,7 @@ const UserInfo: React.FC<UserInfoType> = ({
           .then(() => {
             setDetailUser!({
               id: id,
-              image: image,
+              image: imageValue,
               name: nameValue,
               date: dateValue,
               comment: commentValue,
@@ -133,7 +153,17 @@ const UserInfo: React.FC<UserInfoType> = ({
         </Edit>
       )}
       <ContainerTop />
-      <ProfileImage isDetail={true} src={'/images/' + suitableImg(image)} alt="프로필 이미지" />
+      {isEditing && (
+        <ArrowWrapper isDetail={true}>
+          <MdArrowBackIosNew onClick={handleLeftImage} />
+          <MdArrowForwardIos onClick={handleRightImage} />
+        </ArrowWrapper>
+      )}
+      <ProfileImage
+        isDetail={true}
+        src={isEditing ? '/images/' + suitableImg(imageValue) : '/images/' + suitableImg(image)}
+        alt="프로필 이미지"
+      />
       <ContainerBottom className="flex-center">
         {isEditing ? (
           <>
@@ -224,6 +254,25 @@ const ContainerTop = styled.div`
   }
 `;
 
+const ArrowWrapper = styled.div<{ isDetail: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 100px;
+  left: ${(props) => (props.isDetail ? '135px' : '85px')};
+  width: 350px;
+  color: ${deepBlue};
+  font-size: 60px;
+  cursor: pointer;
+
+  @media ${mobile} {
+    top: 70px;
+    left: calc(45vw - 125px);
+    width: 250px;
+  }
+`;
+
 const ProfileImage = styled.img<{ isDetail: boolean }>`
   position: absolute;
   top: 40px;
@@ -235,7 +284,6 @@ const ProfileImage = styled.img<{ isDetail: boolean }>`
   box-shadow: 0px 2px 6px 1.5px ${deepGray};
 
   @media ${mobile} {
-    top: 40px;
     left: calc(45vw - 60px);
     width: 120px;
     height: 120px;
