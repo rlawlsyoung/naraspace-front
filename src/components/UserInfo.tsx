@@ -1,9 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { AiOutlineRight, AiOutlineLeft, AiTwotoneEdit } from 'react-icons/ai';
 import { FaCheckCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 
+import { userDataType } from '../pages/Main';
 import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
 
 interface UserInfoType {
@@ -12,19 +14,69 @@ interface UserInfoType {
   name: string;
   date: string;
   comment: string;
+  checked: boolean;
   isExistUser: boolean;
+  setDetailUser?: React.Dispatch<React.SetStateAction<userDataType>>;
 }
 
-const UserInfo: React.FC<UserInfoType> = ({ id, image, name, date, comment, isExistUser }) => {
+const UserInfo: React.FC<UserInfoType> = ({
+  id,
+  image,
+  name,
+  date,
+  comment,
+  checked,
+  isExistUser,
+  setDetailUser,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [nameValue, setNameValue] = useState(name);
+  const [nameValue, setNameValue] = useState('');
+  const [dateValue, setDateValue] = useState('');
+  const [commentValue, setCommentValue] = useState('');
 
   const suitableImg = useCallback((str: string) => {
     if (str) return str;
     else return '0.png';
   }, []);
 
-  const handleEdit = () => setIsEditing(!isEditing);
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNameValue(e.target.value);
+  };
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDateValue(e.target.value);
+  };
+  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommentValue(e.target.value);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
+    if (!isEditing) {
+      setNameValue(name);
+      setDateValue(date);
+      setCommentValue(comment);
+    } else {
+      axios
+        .put(`http://localhost:9000/user/${id}`, {
+          image: image,
+          name: nameValue,
+          date: dateValue,
+          comment: commentValue,
+          checked: checked,
+        })
+        .then(() => {
+          const a = {
+            id: id,
+            image: image,
+            name: nameValue,
+            date: dateValue,
+            comment: commentValue,
+            checked: checked,
+          };
+          setDetailUser!(a);
+        });
+    }
+  };
 
   return location.pathname === '/user' ? (
     <Container url={location.pathname} width="350px">
@@ -72,18 +124,37 @@ const UserInfo: React.FC<UserInfoType> = ({ id, image, name, date, comment, isEx
       <ContainerTop />
       <ProfileImage isDetail={true} src={'/images/' + suitableImg(image)} alt="프로필 이미지" />
       <ContainerBottom className="flex-center">
-        <InfoBar>
-          <Name>이름</Name>
-          <p>{name}</p>
-        </InfoBar>
-        <InfoBar>
-          <Name>생년월일</Name>
-          <p>{date}</p>
-        </InfoBar>
-        <InfoBar>
-          <Name>한마디</Name>
-          <p>{comment}</p>
-        </InfoBar>
+        {isEditing ? (
+          <>
+            <InfoBar>
+              <Name>이름</Name>
+              <EditInput value={nameValue} onChange={handleNameChange} />
+            </InfoBar>
+            <InfoBar>
+              <Name>생년월일</Name>
+              <EditInput value={dateValue} onChange={handleDateChange} />
+            </InfoBar>
+            <InfoBar>
+              <Name>한마디</Name>
+              <EditInput value={commentValue} onChange={handleCommentChange} />
+            </InfoBar>
+          </>
+        ) : (
+          <>
+            <InfoBar>
+              <Name>이름</Name>
+              <p>{name}</p>
+            </InfoBar>
+            <InfoBar>
+              <Name>생년월일</Name>
+              <p>{date}</p>
+            </InfoBar>
+            <InfoBar>
+              <Name>한마디</Name>
+              <p>{comment}</p>
+            </InfoBar>
+          </>
+        )}
       </ContainerBottom>
     </Container>
   );
@@ -152,7 +223,7 @@ const ProfileImage = styled.img<{ isDetail: boolean }>`
 const ContainerBottom = styled.div`
   flex-direction: column;
   height: 250px;
-  padding-top: 50px;
+  padding-top: 30px;
   background-color: white;
 
   @media ${mobile} {
@@ -194,6 +265,14 @@ const InfoBar = styled.div`
 const Name = styled.p`
   font-weight: 700;
   min-width: 85px;
+`;
+
+const EditInput = styled.input`
+  border: none;
+  background-color: ${lightSkyBlue};
+  font-family: 'SUIT-Variable', sans-serif;
+  font-size: 14px;
+  outline: none;
 `;
 
 export default UserInfo;

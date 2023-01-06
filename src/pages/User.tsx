@@ -137,6 +137,7 @@ const User = () => {
             name={selectedUser.name}
             date={selectedUser.date}
             comment={selectedUser.comment}
+            checked={selectedUser.checked}
             isExistUser={isExistUser}
           />
         )}
@@ -151,6 +152,8 @@ const User = () => {
           name={detailUser.name}
           date={detailUser.date}
           comment={detailUser.comment}
+          checked={detailUser.checked}
+          setDetailUser={setDetailUser}
           isExistUser={isExistUser}
         />
       </Container>

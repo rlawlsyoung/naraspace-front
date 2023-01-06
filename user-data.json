@@ -1,12 +1,12 @@
 {
   "user": [
     {
-      "id": 1,
-      "name": "Pororo",
+      "image": "1.png",
+      "name": "Pororoㅇㅇㅇㅇ",
       "date": "1984-02-23",
       "comment": "I like to play.",
-      "image": "1.png",
-      "checked": false
+      "checked": true,
+      "id": 1
     },
     {
       "id": 2,
@@ -81,12 +81,12 @@
       "checked": true
     },
     {
-      "id": 11,
-      "name": "스누피",
+      "image": "9.png",
+      "name": "김욱닥",
       "date": "1999-09-09",
       "comment": "해보는 거야! 지금이 아니면 영원히 못해.",
-      "image": "9.png",
-      "checked": true
+      "checked": true,
+      "id": 11
     },
     {
       "id": 12,
