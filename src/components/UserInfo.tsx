@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AiOutlineRight, AiOutlineLeft, AiTwotoneEdit } from 'react-icons/ai';
@@ -9,7 +9,6 @@ import Alert from './Alert';
 
 import { userDataType } from '../pages/Main';
 import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
-import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
 
 interface UserInfoType {
   id: number;
@@ -53,10 +52,6 @@ const UserInfo: React.FC<UserInfoType> = ({
   const handleCommentChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentValue(e.target.value);
   }, []);
-
-  useEffect(() => {
-    console.log(imageValue);
-  }, [imageValue]);
 
   const handleLeftImage = useCallback(() => {
     if (parseInt(imageValue) - 1 > 0) setImageValue(parseInt(imageValue) - 1 + '.png');

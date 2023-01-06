@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { deepBlue, deepGray, lightSkyBlue, middleBlue, mobile } from '../styles/theme';
+import { deepBlue, lightSkyBlue, middleBlue, mobile } from '../styles/theme';
 
 interface ContainerHeaderType {
   isShowOptions: boolean;
