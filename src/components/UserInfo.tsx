@@ -41,19 +41,20 @@ const UserInfo: React.FC<UserInfoType> = ({
     else return '0.png';
   }, []);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
-  };
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, []);
+  const handleDateChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setDateValue(e.target.value);
-  };
-  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  }, []);
+  const handleCommentChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentValue(e.target.value);
-  };
-  const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
-  const dateRegExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+  }, []);
 
   const handleDialogClose = useCallback(() => setIsDialogOpen(false), []);
+
+  const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
+  const dateRegExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
 
   const handleEdit = () => {
     if (!isEditing) {

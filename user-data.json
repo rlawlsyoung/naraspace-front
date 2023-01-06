@@ -10,7 +10,7 @@
     },
     {
       "image": "2.png",
-      "name": "Apple Kim",
+      "name": "여여여여여여여여여여",
       "date": "1995-01-12",
       "comment": "This is innovation.",
       "checked": true,
@@ -25,12 +25,12 @@
       "id": 3
     },
     {
-      "id": 4,
-      "name": "Bear Lee",
+      "image": "",
+      "name": "Bear L애",
       "date": "2002-06-07",
       "comment": "Cheers!",
-      "image": "",
-      "checked": true
+      "checked": true,
+      "id": 4
     },
     {
       "id": 5,
@@ -105,12 +105,12 @@
       "checked": true
     },
     {
-      "id": 14,
-      "name": "Sally",
+      "image": "",
+      "name": "Sally살리",
       "date": "2002-06-07",
       "comment": "If winter comes, can spring be far behind.",
-      "image": "",
-      "checked": true
+      "checked": true,
+      "id": 14
     },
     {
       "image": "12.png",
@@ -131,8 +131,8 @@
     {
       "image": "14.png",
       "name": "김닥콩",
-      "date": "1926-12-31",
-      "comment": "ㅇㅇ",
+      "date": "2022-12-31",
+      "comment": "ㅎㅇㅋ",
       "checked": true,
       "id": 17
     }
