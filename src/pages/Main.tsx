@@ -167,7 +167,8 @@ const Main = () => {
           setIsAsc={setIsRightAsc}
         />
         <UserBarWrapper height="320px">
-          {checkedUserData[0].id !== 0 &&
+          {checkedUserData &&
+            checkedUserData[0]?.id !== 0 &&
             checkedUserData.map((data) => (
               <UserBar key={data.id} name={data.name} date={data.date} />
             ))}
