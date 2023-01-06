@@ -59,7 +59,10 @@ const InfoWrapper = styled.div`
 `;
 
 const Name = styled.p`
+  display: flex;
+  align-items: center;
   width: 85px;
+  max-height: 14px;
 `;
 
 const CheckboxContainer = styled.div`

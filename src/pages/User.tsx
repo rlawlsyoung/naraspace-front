@@ -1,17 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import styled from 'styled-components';
 import ContainerHeader from '../components/ContainerHeader';
 import UserBarWrapper from '../components/UserBarWrapper';
 import UserBarSelect from '../components/UserBarSelect';
+import UserInfo from '../components/UserInfo';
 
 import { userDataType } from './Main';
-import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
+import { mobile } from '../styles/theme';
 
 const User = () => {
   const [isShowOptions, setIsShowOptions] = useState(false);
+  const [isExistUser, setIsExistUser] = useState(false);
+  const [isAsc, setIsAsc] = useState(true);
   const [checkedUserData, setCheckedUserData] = useState([
     { id: 0, name: '', date: '', checked: false, image: '', comment: '' },
   ]);
@@ -33,8 +34,6 @@ const User = () => {
     comment: '',
   });
 
-  const [isAsc, setIsAsc] = useState(true);
-
   useEffect(() => {
     try {
       axios('../user-data.json').then((res) => {
@@ -43,7 +42,7 @@ const User = () => {
           setCheckedUserData(
             userDataSort(
               res.data.user.filter((data: userDataType) => data.checked),
-              isAsc,
+              true,
             ),
           );
         location.pathname !== '/user' &&
@@ -55,10 +54,24 @@ const User = () => {
               (data: userDataType) => data.id === Number(location.pathname.substr(6)),
             ),
           );
+        res.data.user &&
+          res.data.user[res.data.user.length - 1].id >= Number(location.pathname.substr(6)) &&
+          0 < Number(location.pathname.substr(6)) &&
+          setIsExistUser(true);
+        location.pathname === '/user' && setIsAsc(true);
       });
     } catch (err) {
       console.log('데이터를 받아오는 과정에서 오류가 발생했습니다.', err);
     }
+    location.pathname === '/user' &&
+      setSelectedUser({
+        id: 0,
+        name: '',
+        date: '',
+        checked: false,
+        image: '',
+        comment: '',
+      });
   }, [location.pathname]);
 
   useEffect(() => {
@@ -66,14 +79,9 @@ const User = () => {
     setCheckedUserData(reversedUserData);
   }, [isAsc]);
 
-  const suitableImg = (str: string) => {
-    if (str) return str;
-    else return '0.png';
-  };
-
-  const handleClickOutside = () => {
+  const handleClickOutside = useCallback(() => {
     isShowOptions && setIsShowOptions(!isShowOptions);
-  };
+  }, [isShowOptions]);
 
   const userDataSort = useCallback((data: userDataType[], isAsc: boolean) => {
     const newData = [...data];
@@ -102,98 +110,64 @@ const User = () => {
     }
   }, []);
 
-  return location.pathname === '/user' ? (
-    <Container className="flex-center" onClick={handleClickOutside}>
-      <LeftContainer>
-        <ContainerHeader
-          isShowOptions={isShowOptions}
-          setIsShowOptions={setIsShowOptions}
-          setIsAsc={setIsAsc}
-        />
-        <UserBarWrapper height="320px">
-          {checkedUserData[0].id !== 0 &&
-            checkedUserData.map((data) => {
-              const handleClick = () => {
-                setSelectedUser(data);
-              };
-              return (
-                <UserBarSelect
-                  key={data.id}
-                  id={data.id}
-                  selectedId={selectedUser.id}
-                  name={data.name}
-                  date={data.date}
-                  handleClick={handleClick}
-                />
-              );
-            })}
-        </UserBarWrapper>
-      </LeftContainer>
-      {selectedUser.id !== 0 && (
-        <RightContainer url={location.pathname} width="350px">
-          <DetailLink to={'/user/' + selectedUser.id} className="flex-center">
-            자세히 보기
-            <AiOutlineRight />
-          </DetailLink>
-          <ContainerTop />
-          <ProfileImage
-            isDetail={false}
-            src={'/images/' + suitableImg(selectedUser.image)}
-            alt="프로필 이미지"
+  if (location.pathname === '/user')
+    return (
+      <Container className="flex-center" onClick={handleClickOutside}>
+        <LeftContainer>
+          <ContainerHeader
+            isShowOptions={isShowOptions}
+            setIsShowOptions={setIsShowOptions}
+            setIsAsc={setIsAsc}
           />
-          <ContainerBottom className="flex-center">
-            <InfoBar>
-              <Name>이름</Name>
-              <p>{selectedUser.name}</p>
-            </InfoBar>
-            <InfoBar>
-              <Name>생년월일</Name>
-              <p>{selectedUser.date}</p>
-            </InfoBar>
-            <InfoBar>
-              <Name>한마디</Name>
-              <p>{selectedUser.comment}</p>
-            </InfoBar>
-          </ContainerBottom>
-        </RightContainer>
-      )}
-    </Container>
-  ) : (
-    <Container className="flex-center">
-      <RightContainer url={location.pathname} width="620px">
-        <PreviousLink to="/user" className="flex-center">
-          <AiOutlineLeft />
-          뒤로 가기
-        </PreviousLink>
-        <ContainerTop />
-        <ProfileImage
-          isDetail={true}
-          src={'/images/' + suitableImg(detailUser.image)}
-          alt="프로필 이미지"
+          <UserBarWrapper height="320px">
+            {checkedUserData &&
+              checkedUserData[0]?.id !== 0 &&
+              checkedUserData.map((data) => {
+                const handleClick = () => {
+                  setSelectedUser(data);
+                };
+                return (
+                  <UserBarSelect
+                    key={data.id}
+                    id={data.id}
+                    selectedId={selectedUser.id}
+                    name={data.name}
+                    date={data.date}
+                    handleClick={handleClick}
+                  />
+                );
+              })}
+          </UserBarWrapper>
+        </LeftContainer>
+        {selectedUser.id !== 0 && (
+          <UserInfo
+            id={selectedUser.id}
+            image={selectedUser.image}
+            name={selectedUser.name}
+            date={selectedUser.date}
+            comment={selectedUser.comment}
+            checked={selectedUser.checked}
+            isExistUser={isExistUser}
+          />
+        )}
+      </Container>
+    );
+  else
+    return (
+      <Container className="flex-center" onClick={handleClickOutside}>
+        <UserInfo
+          id={detailUser.id}
+          image={detailUser.image}
+          name={detailUser.name}
+          date={detailUser.date}
+          comment={detailUser.comment}
+          checked={detailUser.checked}
+          setDetailUser={setDetailUser}
+          isExistUser={isExistUser}
         />
-        <ContainerBottom className="flex-center">
-          <InfoBar>
-            <Name>이름</Name>
-            <p>{detailUser.name}</p>
-          </InfoBar>
-          <InfoBar>
-            <Name>생년월일</Name>
-            <p>{detailUser.date}</p>
-          </InfoBar>
-          <InfoBar>
-            <Name>한마디</Name>
-            <p>{detailUser.comment}</p>
-          </InfoBar>
-        </ContainerBottom>
-      </RightContainer>
-    </Container>
-  );
+      </Container>
+    );
 };
-
-interface RightContainerStyleProps {
-  url: string;
-  width: string;
-}
 
 const Container = styled.div`
   height: calc(100vh - 70px);
@@ -219,87 +193,4 @@ const LeftContainer = styled.div`
   }
 `;
 
-const RightContainer = styled.div<RightContainerStyleProps>`
-  position: relative;
-  width: ${(props) => props.width};
-  margin-left: ${(props) => props.url === '/user' && '20px'};
-
-  @media ${mobile} {
-    width: 90vw;
-    margin-left: 0;
-  }
-`;
-
-const DetailLink = styled(Link)`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 16px;
-  color: ${deepBlue};
-`;
-
-const PreviousLink = styled(Link)`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-size: 16px;
-  color: ${deepBlue};
-  cursor: pointer;
-`;
-
-const ContainerTop = styled.div`
-  height: 160px;
-  background-color: ${lightSkyBlue};
-
-  @media ${mobile} {
-    height: 120px;
-  }
-`;
-
-const ProfileImage = styled.img<{ isDetail: boolean }>`
-  position: absolute;
-  top: 40px;
-  left: ${(props) => (props.isDetail ? '220px' : '85px')};
-  width: 180px;
-  height: 180px;
-  border-radius: 90px;
-  background-color: white;
-  box-shadow: 0px 2px 6px 1.5px ${deepGray};
-
-  @media ${mobile} {
-    top: 40px;
-    left: calc(45vw - 60px);
-    width: 120px;
-    height: 120px;
-  }
-`;
-
-const ContainerBottom = styled.div`
-  flex-direction: column;
-  height: 250px;
-  padding-top: 50px;
-  background-color: white;
-
-  @media ${mobile} {
-    height: 25vh;
-    padding-top: 30px;
-  }
-`;
-
-const InfoBar = styled.div`
-  display: flex;
-  align-items: center;
-  width: 300px;
-  height: 40px;
-  border-bottom: 1px solid ${lightGray};
-
-  &:last-of-type {
-    border: none;
-  }
-`;
-
-const Name = styled.p`
-  font-weight: 700;
-  min-width: 85px;
-`;
 export default User;

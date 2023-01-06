@@ -6,7 +6,7 @@
       "date": "1984-02-23",
       "comment": "I like to play.",
       "image": "1.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "date": "1995-01-12",
       "comment": "This is innovation.",
       "image": "2.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "date": "2020-10-11",
       "comment": "Have a nice day!",
       "image": "3.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 4,
@@ -30,7 +30,7 @@
       "date": "2002-06-07",
       "comment": "Cheers!",
       "image": "",
-      "checked": true
+      "checked": false
     },
     {
       "id": 5,
@@ -54,7 +54,7 @@
       "date": "2017-08-12",
       "comment": "해-삐",
       "image": "6.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 8,
@@ -62,7 +62,7 @@
       "date": "1999-09-09",
       "comment": "오늘 하루는 어땠어?",
       "image": "7.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 9,
