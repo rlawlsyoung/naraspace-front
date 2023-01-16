@@ -1,11 +1,11 @@
 {
   "user": [
     {
-      "image": "12.png",
+      "image": "8.png",
       "name": "Pororo",
       "date": "1984-02-23",
       "comment": "I like to play.",
-      "checked": true,
+      "checked": false,
       "id": 1
     },
     {
@@ -14,7 +14,7 @@
       "date": "1995-01-12",
       "comment": "This is innovation.",
       "image": "2.png",
-      "checked": false
+      "checked": true
     },
     {
       "id": 3,
@@ -54,7 +54,7 @@
       "date": "2017-08-12",
       "comment": "해-삐",
       "image": "6.png",
-      "checked": true
+      "checked": false
     },
     {
       "id": 8,
@@ -70,14 +70,14 @@
       "date": "2002-06-07",
       "comment": "지치고 힘들 때 하나씩 꺼내 먹어요.",
       "image": "",
-      "checked": true
+      "checked": false
     },
     {
       "image": "8.png",
       "name": "춘식이",
       "date": "2002-06-07",
       "comment": "춘식이는 고양이",
-      "checked": true,
+      "checked": false,
       "id": 10
     },
     {
@@ -110,14 +110,14 @@
       "date": "2002-06-07",
       "comment": "If winter comes, can spring be far behind.",
       "image": "",
-      "checked": true
+      "checked": false
     },
     {
       "image": "12.png",
       "name": "해리포터",
       "date": "1980-07-31",
       "comment": "알로호모라 (Alohomora)",
-      "checked": true,
+      "checked": false,
       "id": 15
     },
     {
@@ -134,7 +134,7 @@
       "date": "1926-12-31",
       "comment": "아바다 케다브라 (Avada Kedabra)",
       "image": "14.png",
-      "checked": false
+      "checked": true
     }
   ]
 }
