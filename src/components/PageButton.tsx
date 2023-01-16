@@ -32,6 +32,7 @@ interface StyledPropsType {
 }
 
 const Container = styled.div<StyledPropsType>`
+  width: 70px;
   margin: 0 17.5px;
   font-weight: ${(props) => props.url === props.goal && 700};
 
