@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import Alert from './Alert';
 
 import { userDataType } from '../pages/Main';
-import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
+import { lightSkyBlue, lightGray, deepGray, deepBlue, deepBrown, mobile } from '../styles/theme';
 
 interface UserInfoType {
   id: number;
@@ -311,7 +311,7 @@ const EditGuide = styled.div`
   height: 50px;
   background-color: white;
   padding: 20px 20px 40px 20px;
-  color: #5c5c5c;
+  color: ${deepBrown};
   font-weight: 600;
   text-align: center;
 `;
@@ -320,7 +320,7 @@ const Edit = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-  color: #5c5c5c;
+  color: ${deepBrown};
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
