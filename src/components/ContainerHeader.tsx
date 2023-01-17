@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { deepBlue, lightSkyBlue, middleBlue, mobile } from '../styles/theme';
@@ -16,11 +16,11 @@ const ContainerHeader: React.FC<ContainerHeaderType> = ({
 }) => {
   const [currentValue, setCurrentValue] = useState('오름차 순');
 
-  const handleOnChangeSelectValue = (str: string) => {
+  const handleOnChangeSelectValue = useCallback((str: string) => {
     setCurrentValue(str);
     str === '오름차 순' && setIsAsc(true);
     str === '내림차 순' && setIsAsc(false);
-  };
+  }, []);
 
   return (
     <Container>
