@@ -38,6 +38,9 @@ const UserInfo: React.FC<UserInfoType> = ({
   const [dateValue, setDateValue] = useState('');
   const [commentValue, setCommentValue] = useState('');
 
+  const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
+  const dateRegExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+
   const suitableImg = useCallback((str: string) => {
     if (str) return str;
     else return '0.png';
@@ -67,10 +70,7 @@ const UserInfo: React.FC<UserInfoType> = ({
 
   const handleDialogClose = useCallback(() => setIsDialogOpen(false), []);
 
-  const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
-  const dateRegExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
-
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     if (!isEditing) {
       setNameValue(name);
       setDateValue(date);
@@ -102,7 +102,7 @@ const UserInfo: React.FC<UserInfoType> = ({
         setIsDialogOpen(true);
       }
     }
-  };
+  }, [isEditing, imageValue, nameValue, dateValue, commentValue, name]);
 
   return location.pathname === '/user' ? (
     <Container url={location.pathname} width="350px">
