@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import Alert from './Alert';
 
 import { userDataType } from '../pages/Main';
-import { lightSkyBlue, lightGray, deepGray, deepBlue, mobile } from '../styles/theme';
+import { lightSkyBlue, lightGray, deepGray, deepBlue, deepBrown, mobile } from '../styles/theme';
 
 interface UserInfoType {
   id: number;
@@ -37,6 +37,9 @@ const UserInfo: React.FC<UserInfoType> = ({
   const [nameValue, setNameValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [commentValue, setCommentValue] = useState('');
+
+  const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
+  const dateRegExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
 
   const suitableImg = useCallback((str: string) => {
     if (str) return str;
@@ -67,10 +70,7 @@ const UserInfo: React.FC<UserInfoType> = ({
 
   const handleDialogClose = useCallback(() => setIsDialogOpen(false), []);
 
-  const nameRegExp = RegExp(/^[가-힣a-zA-Z\s]+$/);
-  const dateRegExp = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
-
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     if (!isEditing) {
       setNameValue(name);
       setDateValue(date);
@@ -102,7 +102,7 @@ const UserInfo: React.FC<UserInfoType> = ({
         setIsDialogOpen(true);
       }
     }
-  };
+  }, [isEditing, imageValue, nameValue, dateValue, commentValue, name]);
 
   return location.pathname === '/user' ? (
     <Container url={location.pathname} width="350px">
@@ -311,7 +311,7 @@ const EditGuide = styled.div`
   height: 50px;
   background-color: white;
   padding: 20px 20px 40px 20px;
-  color: #5c5c5c;
+  color: ${deepBrown};
   font-weight: 600;
   text-align: center;
 `;
@@ -320,7 +320,7 @@ const Edit = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-  color: #5c5c5c;
+  color: ${deepBrown};
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;

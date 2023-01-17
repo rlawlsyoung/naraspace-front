@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import logo from '../../public/images/logo.png';
 
 import { mobile } from '../styles/theme';
 
